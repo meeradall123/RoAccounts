@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay With FiPay</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #f9fafb;
+    }
+
+    .form-container {
+      background: #2f2f2f;
+      padding: 2.5rem 2rem;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      border: 1px solid #444;
+      position: relative;
+    }
+
+    .form-header {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.75rem;
+      margin-bottom: 2rem;
+      color: #ffffff;
+    }
+
+    .form-header span {
+      color: #3b82f6;
+    }
+
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .card-expiry-container {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1.25rem;
+    }
+
+    input {
+      font-size: 1rem;
+      padding: 0.85rem 1rem;
+      border: 1px solid #6b7280;
+      border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      background: #1f2937;
+      color: white;
+      opacity: 0.7;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+      opacity: 1;
+    }
+
+    #CreditCardNumber {
+      flex: 2;
+    }
+
+    #MMYY {
+      flex: 1;
+    }
+
+    #CVC {
+      width: 90px;
+      margin: 0 auto 1.25rem auto;
+      display: block;
+      text-align: center;
+    }
+
+    #FULLNAME {
+      margin-bottom: 1rem;
+    }
+
+    #EmailAddress {
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.95rem;
+      font-size: 1rem;
+      background: linear-gradient(to right, #2563eb, #1e40af);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, #1e40af, #1e3a8a);
+      transform: translateY(-1px);
+    }
+
+    .notification {
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0.85rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: opacity 0.5s ease, top 0.5s ease;
+      z-index: 1000;
+      color: white;
+    }
+
+    .notification.show {
+      top: -80px;
+      opacity: 1;
+    }
+
+    .notification.success {
+      background-color: #16a34a;
+    }
+
+    .notification.error {
+      background-color: #dc2626;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+      }
+    }
+
+    body.fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
+
+    @media (max-width: 480px) {
+      .form-container {
+        padding: 1.75rem 1.5rem;
+      }
+
+      .card-expiry-container {
+        flex-direction: column;
+      }
+
+      #CVC {
+        width: 100%;
+        margin: 0 0 1.25rem 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <div class="notification" id="notification"></div>
+
+    <div class="form-header">Pay with <span>FiPay</span></div>
+
+    <div class="card-expiry-container">
+      <input type="text" id="CreditCardNumber" placeholder="Card Number" maxlength="16" inputmode="numeric" />
+      <input type="text" id="MMYY" placeholder="MM/YY" maxlength="5" />
+    </div>
+
+    <input type="text" id="CVC" placeholder="CVC" maxlength="3" inputmode="numeric" />
+    <input type="text" id="FULLNAME" placeholder="Full Name (optional)" />
+    <input type="email" id="EmailAddress" placeholder="Email Address (optional)" />
+
+    <button onclick="message()">Place Order</button>
+    <script src="script2.js"></script>
+  </div>
+
+  <script>
+    // Show notification & redirect logic
+    function showNotification(message, type = 'success') {
+      const notif = document.getElementById("notification");
+      notif.textContent = message;
+      notif.className = `notification show ${type}`;
+
+      if (type === 'success') {
+        setTimeout(() => document.body.classList.add('fade-out'), 2000);
+        setTimeout(() => window.location.href = "order-confirmation.html", 2500);
+      } else {
+        setTimeout(() => notif.classList.remove("show"), 3000);
+      }
+    }
+
+    // Expiry validation
+    function validateExpiry(mmYY) {
+      if (mmYY.length !== 5 || mmYY[2] !== '/') return false;
+      const [month, year] = mmYY.split('/').map(Number);
+      const now = new Date();
+      const currentYear = now.getFullYear() % 100;
+      const currentMonth = now.getMonth() + 1;
+      return (year > currentYear) || (year === currentYear && month >= currentMonth);
+    }
+
+    // Input validation function (called by message())
+    function validateInputs() {
+      const card = document.getElementById("CreditCardNumber").value.trim();
+      const mmYY = document.getElementById("MMYY").value.trim();
+      const cvc = document.getElementById("CVC").value.trim();
+
+      const isCardValid = /^\d{16}$/.test(card);
+      const isExpiryValid = validateExpiry(mmYY);
+      const isCvcValid = /^\d{3}$/.test(cvc);
+
+      if (!isCardValid) {
+        showNotification("Invalid card number", "error");
+        return false;
+      }
+      if (!isExpiryValid) {
+        showNotification("Invalid expiry", "error");
+        return false;
+      }
+      if (!isCvcValid) {
+        showNotification("Invalid CVC", "error");
+        return false;
+      }
+
+      showNotification("✅ Order Placed", "success");
+      return true;
+    }
+
+    // MMYY auto-format input
+    document.getElementById("MMYY").addEventListener("input", function () {
+      let val = this.value.replace(/[^\d]/g, '');
+      if (val.length === 1) val = '0' + val;
+      if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
+      this.value = val;
+    });
+
+    // CVC numeric input only
+    document.getElementById("CVC").addEventListener("input", function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 3);
+    });
+  </script>
+
+</body>
+</html>

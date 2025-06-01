@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RoAccounts - Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e1e2f, #2c2c54);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+
+      /* Start transparent for fade-in */
+      opacity: 0;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .container {
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+    }
+
+    .shop-btn {
+      background-color: #00c3ff;
+      border: none;
+      color: white;
+      padding: 15px 30px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .shop-btn:hover {
+      background-color: #009dcf;
+    }
+
+    .discord-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #5865F2;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .discord-btn:hover {
+      background-color: #4752c4;
+    }
+
+    .discord-icon {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Discord Invite Button -->
+  <a href="https://discord.gg/BStvqfrQN5" target="_blank" class="discord-btn">
+    <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4ac.svg" alt="Discord" class="discord-icon" />
+    Join Discord
+  </a>
+
+  <div class="container">
+    <h1>RoAccounts</h1>
+    <p>Your trusted place to buy Roblox Accounts.</p>
+    <a href="login.html" class="shop-btn" id="shopBtn">Shop</a>
+  </div>
+
+  <!-- Click sound audio -->
+  <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+
+  <script>
+    const shopBtn = document.getElementById('shopBtn');
+    const clickSound = document.getElementById('clickSound');
+
+    shopBtn.addEventListener('click', function(event) {
+      // Play click sound
+      clickSound.currentTime = 0;
+      clickSound.play();
+      // Note: Redirect will happen immediately after click because it's an anchor link,
+      // sound might cut off. To fix, you can delay navigation a bit if you want.
+    });
+  </script>
+
+</body>
+</html>

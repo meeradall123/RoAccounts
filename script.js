@@ -60,6 +60,7 @@
     // Mark as logged in and store current user
     localStorage.setItem("loggedIn", "true");
     localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+    localStorage.setItem("currentUsername", matchedUser.username); // ✅ Store separately for easier access
 
     error.textContent = "";
     showLoginNotification("Login Successful");
@@ -78,10 +79,11 @@
     }, 3000);
   }
 
-  // Optional: Logout function
+  // Logout function
   function logoutUser() {
     localStorage.removeItem("loggedIn");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("currentUsername"); // ✅ Clear username on logout
     window.location.href = "login.html";
   }
 </script>

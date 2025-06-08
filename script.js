@@ -3,7 +3,7 @@ function registerUser() {
   const password = document.getElementById("password").value.trim();
   const error = document.getElementById("signupError");
 
-  if (username.length < 3  password.length < 6) {
+  if (username.length < 3 || password.length < 6) {
     error.textContent = "Username must be 3+ chars & password 6+ chars.";
     return false;
   }
@@ -35,7 +35,7 @@ function loginUser() {
 
   const stored = JSON.parse(localStorage.getItem("user"));
 
-  if (!stored  username !== stored.username || password !== stored.password) {
+  if (!stored || username !== stored.username || password !== stored.password) {
     error.textContent = "Invalid credentials.";
     return false;
   }

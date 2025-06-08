@@ -8,6 +8,26 @@ function registerUser() {
     return false;
   }
 
+  // Get existing users or empty array
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+  // Check for duplicate username
+  const exists = users.find(u => u.username === username);
+  if (exists) {
+    error.textContent = "Username already taken.";
+    return false;
+  }
+
+  // Add new user
+  users.push({ username, password });
+  localStorage.setItem("users", JSON.stringify(users));
+
+  error.textContent = "";
+  showSignupNotification("Registered Successfully");
+  return false;
+}
+
+
   // Save credentials
   localStorage.setItem("user", JSON.stringify({ username, password }));
   error.textContent = "";
@@ -33,12 +53,23 @@ function loginUser() {
   const password = document.getElementById("loginPassword").value.trim();
   const error = document.getElementById("loginError");
 
-  const stored = JSON.parse(localStorage.getItem("user"));
+  const users = JSON.parse(localStorage.getItem("users")) || [];
 
-  if (!stored || username !== stored.username || password !== stored.password) {
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (!user) {
     error.textContent = "Invalid credentials.";
     return false;
   }
+
+  localStorage.setItem("loggedIn", "true");
+  localStorage.setItem("currentUser", JSON.stringify(user)); // Optional: track current user
+
+  error.textContent = "";
+  showLoginNotification("Login Succeed");
+  return false;
+}
+
 
   localStorage.setItem("loggedIn", "true");
   error.textContent = "";

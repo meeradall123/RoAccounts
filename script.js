@@ -1,89 +1,87 @@
-function registerUser() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const error = document.getElementById("signupError");
+<script>
+  // Register new user
+  function registerUser() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const error = document.getElementById("signupError");
 
-  if (username.length < 3 || password.length < 6) {
-    error.textContent = "Username must be 3+ chars & password 6+ chars.";
+    // Basic validation
+    if (username.length < 3 || password.length < 6) {
+      error.textContent = "Username must be at least 3 characters and password at least 6.";
+      return false;
+    }
+
+    // Load existing users
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Check if username already exists
+    if (users.some(user => user.username === username)) {
+      error.textContent = "Username is already taken.";
+      return false;
+    }
+
+    // Save new user
+    users.push({ username, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    error.textContent = "";
+    showSignupNotification("Registered Successfully");
     return false;
   }
 
-  // Get existing users or empty array
-  const users = JSON.parse(localStorage.getItem("users")) || [];
+  // Display signup success message
+  function showSignupNotification(message) {
+    const notification = document.getElementById("signupNotification");
+    notification.textContent = message;
+    notification.style.display = "block";
 
-  // Check for duplicate username
-  const exists = users.find(u => u.username === username);
-  if (exists) {
-    error.textContent = "Username already taken.";
+    setTimeout(() => {
+      notification.style.display = "none";
+      window.location.href = "login.html"; // Redirect to login page
+    }, 3000);
+  }
+
+  // Login existing user
+  function loginUser() {
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const error = document.getElementById("loginError");
+
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Find matching user
+    const matchedUser = users.find(user => user.username === username && user.password === password);
+
+    if (!matchedUser) {
+      error.textContent = "Invalid username or password.";
+      return false;
+    }
+
+    // Mark as logged in and store current user
+    localStorage.setItem("loggedIn", "true");
+    localStorage.setItem("currentUser", JSON.stringify(matchedUser));
+
+    error.textContent = "";
+    showLoginNotification("Login Successful");
     return false;
   }
 
-  // Add new user
-  users.push({ username, password });
-  localStorage.setItem("users", JSON.stringify(users));
+  // Display login success message
+  function showLoginNotification(message) {
+    const notification = document.getElementById("loginNotification");
+    notification.textContent = message;
+    notification.style.display = "block";
 
-  error.textContent = "";
-  showSignupNotification("Registered Successfully");
-  return false;
-}
-
-
-  // Save credentials
-  localStorage.setItem("user", JSON.stringify({ username, password }));
-  error.textContent = "";
-
-  showSignupNotification("Registered Successfully");
-  return false;
-}
-
-function showSignupNotification(message) {
-  const notification = document.getElementById("signupNotification");
-  notification.textContent = message;
-  notification.style.display = "block";
-
-  setTimeout(() => {
-    notification.style.display = "none";
-    window.location.href = "login.html"; // Redirect to login after showing message
-  }, 3000);
-}
-
-// Login function (if needed on the same script)
-function loginUser() {
-  const username = document.getElementById("loginUsername").value.trim();
-  const password = document.getElementById("loginPassword").value.trim();
-  const error = document.getElementById("loginError");
-
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (!user) {
-    error.textContent = "Invalid credentials.";
-    return false;
+    setTimeout(() => {
+      notification.style.display = "none";
+      window.location.href = "index2.html"; // Redirect to home page
+    }, 3000);
   }
 
-  localStorage.setItem("loggedIn", "true");
-  localStorage.setItem("currentUser", JSON.stringify(user)); // Optional: track current user
-
-  error.textContent = "";
-  showLoginNotification("Login Succeed");
-  return false;
-}
-
-
-  localStorage.setItem("loggedIn", "true");
-  error.textContent = "";
-  showLoginNotification("Login Succeed");
-  return false;
-}
-
-function showLoginNotification(message) {
-  const notification = document.getElementById("loginNotification");
-  notification.textContent = message;
-  notification.style.display = "block";
-
-  setTimeout(() => {
-    notification.style.display = "none";
-    window.location.href = "index2.html"; // Redirect after login
-  }, 3000);
-}
+  // Optional: Logout function
+  function logoutUser() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+  }
+</script>

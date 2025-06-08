@@ -87,12 +87,15 @@
       font-size: 1.1rem;
       text-shadow: 0 1px 2px rgba(0,0,0,0.25);
       transition: color 0.3s ease;
+      outline-offset: 2px;
     }
 
-    nav a:hover {
+    nav a:hover,
+    nav a:focus {
       color: #1e1e1e;
       text-decoration: underline;
       font-weight: 700;
+      outline: none;
     }
 
     /* Hero Section */
@@ -151,11 +154,13 @@
       user-select: none;
     }
 
-    .item:hover {
+    .item:hover,
+    .item:focus-within {
       transform: translateY(-10px);
       box-shadow:
         0 10px 30px rgba(255, 93, 48, 0.6),
         inset 0 0 20px rgba(255, 93, 48, 0.35);
+      outline: none;
     }
 
     .item h3 {
@@ -186,11 +191,15 @@
       box-shadow: 0 4px 10px rgba(40, 167, 69, 0.6);
       transition: background-color 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
+      outline-offset: 3px;
+      outline: none;
     }
 
-    .item button:hover {
+    .item button:hover,
+    .item button:focus {
       background-color: #218838;
       box-shadow: 0 6px 18px rgba(33, 136, 56, 0.8);
+      outline: none;
     }
 
     /* Footer */
@@ -239,6 +248,29 @@
       text-shadow: 0 0 5px rgba(30, 30, 30, 0.8);
       user-select: none;
       flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #accountsHistory header button {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      outline-offset: 2px;
+    }
+
+    #accountsHistory header button:hover,
+    #accountsHistory header button:focus {
+      background-color: rgba(255, 93, 48, 0.7);
+      outline: none;
     }
 
     #accountsHistory .historyContent {
@@ -248,6 +280,7 @@
       scrollbar-width: thin;
       scrollbar-color: #ff5d30 transparent;
       font-family: 'Poppins', Arial, sans-serif;
+      scroll-behavior: smooth; /* Smooth scrolling */
     }
 
     /* Custom scrollbar for WebKit */
@@ -279,7 +312,6 @@
     .historyText {
       color: #ddd;
     }
-
   </style>
 </head>
 <body>
@@ -289,31 +321,43 @@
     <p>Your Source for Quality Roblox Accounts</p>
   </header>
 
-  <nav>
+  <nav role="navigation" aria-label="Primary navigation">
     <a href="index.html">Home</a>
     <a href="Contact.html">Contact</a>
   </nav>
 
-  <section class="hero">
+  <section class="hero" role="region" aria-label="Hero section">
     <h2>Explore Roblox Accounts</h2>
     <p>Buy Roblox accounts with Robux and more!</p>
   </section>
 
-  <section class="items">
-    <div class="item">
+  <section class="items" role="list" aria-label="Available Roblox accounts for purchase">
+    <div class="item" role="listitem" tabindex="0">
       <h3>20x Random Roblox Accounts</h3>
       <p>Each Account Has 2000-5000 Robux.</p>
-      <button data-url="checkout.html">Buy for 50$</button>
+      <button
+        data-url="checkout.html"
+        aria-label="Buy 20x Random Roblox Accounts for 50 dollars"
+        type="button"
+      >Buy for 50$</button>
     </div>
-    <div class="item">
+    <div class="item" role="listitem" tabindex="0">
       <h3>10x Roblox Accounts</h3>
       <p>Each Account Has 5000-10000 Robux.</p>
-      <button data-url="checkout.html">Buy for 20$</button>
+      <button
+        data-url="checkout.html"
+        aria-label="Buy 10x Roblox Accounts for 20 dollars"
+        type="button"
+      >Buy for 20$</button>
     </div>
-    <div class="item">
+    <div class="item" role="listitem" tabindex="0">
       <h3>30x Roblox Accounts</h3>
       <p>Each Account has 10000-15000 Robux.</p>
-      <button data-url="checkout.html">Buy for 85$</button>
+      <button
+        data-url="checkout.html"
+        aria-label="Buy 30x Roblox Accounts for 85 dollars"
+        type="button"
+      >Buy for 85$</button>
     </div>
   </section>
 
@@ -322,81 +366,115 @@
   </footer>
 
   <!-- Accounts Bought History Panel -->
-  <div id="accountsHistory">
-    <header>Accounts Bought History</header>
-    <div class="historyContent" id="historyContent">
+  <div
+    id="accountsHistory"
+    role="complementary"
+    aria-label="Accounts Bought History"
+    aria-live="polite"
+    aria-relevant="additions"
+  >
+    <header>
+      Accounts Bought History
+      <button id="closeHistoryBtn" aria-label="Close accounts bought history panel" type="button">Close</button>
+    </header>
+    <div class="historyContent" id="historyContent" tabindex="0">
       <!-- History items will be appended here by JavaScript -->
     </div>
   </div>
 
   <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('.item button');
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.item button');
+      const historyContainer = document.getElementById('historyContent');
+      const closeBtn = document.getElementById('closeHistoryBtn');
+      const accountsHistoryPanel = document.getElementById('accountsHistory');
 
-  buttons.forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const url = button.getAttribute('data-url');
+      // Confirm before redirecting to checkout
+      buttons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          const url = button.getAttribute('data-url');
+          const productName = button.closest('.item').querySelector('h3').textContent;
+          const confirmPurchase = confirm(`Are you sure you want to buy "${productName}"?`);
+          if (!confirmPurchase) return;
 
-      document.body.classList.add('fade-out');
+          document.body.classList.add('fade-out');
+          setTimeout(() => {
+            window.location.href = url;
+          }, 500);
+        });
+      });
 
-      setTimeout(() => {
-        window.location.href = url;
-      }, 500);
+      // Purchase amounts for the fake history
+      const purchaseAmounts = [10, 20, 30, 50];
+
+      // Random int helper
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      // Generate 1000 fake purchase history entries
+      const historyEntries = [];
+      for (let i = 0; i < 1000; i++) {
+        const playerNumber = randomInt(100, 1000);
+        const username = `Player${playerNumber}`;
+        const amount = purchaseAmounts[randomInt(0, purchaseAmounts.length - 1)];
+        const message = `${username} bought ${amount}x Roblox accounts <span style="color:#ff5d30; font-weight: 600; margin-left: 6px;">Now</span>`;
+        historyEntries.push(message);
+      }
+
+      let currentIndex = 0;
+      let appendTimeout;
+
+      function appendNextEntry() {
+        if (currentIndex >= historyEntries.length) return;
+
+        const entry = historyEntries[currentIndex];
+        const div = document.createElement('div');
+        div.classList.add('historyItem');
+
+        // Split username from rest of message safely
+        const firstSpaceIndex = entry.indexOf(' ');
+        const username = entry.substring(0, firstSpaceIndex);
+        const restText = entry.substring(firstSpaceIndex + 1);
+
+        div.innerHTML = `<span class="historyUser">${username}</span><span class="historyText">${restText}</span>`;
+        historyContainer.appendChild(div);
+
+        // Auto-scroll to bottom with smooth behavior
+        historyContainer.scrollTo({ top: historyContainer.scrollHeight, behavior: 'smooth' });
+
+        currentIndex++;
+        localStorage.setItem('purchaseHistoryIndex', currentIndex);
+
+        appendTimeout = setTimeout(appendNextEntry, 1000);
+      }
+
+      // Load last saved index or start fresh
+      const savedIndex = parseInt(localStorage.getItem('purchaseHistoryIndex'), 10);
+      if (!isNaN(savedIndex) && savedIndex > 0 && savedIndex < historyEntries.length) {
+        currentIndex = savedIndex;
+        // Pre-fill history with already loaded entries
+        for (let i = 0; i < currentIndex; i++) {
+          const entry = historyEntries[i];
+          const div = document.createElement('div');
+          div.classList.add('historyItem');
+          const firstSpaceIndex = entry.indexOf(' ');
+          const username = entry.substring(0, firstSpaceIndex);
+          const restText = entry.substring(firstSpaceIndex + 1);
+          div.innerHTML = `<span class="historyUser">${username}</span><span class="historyText">${restText}</span>`;
+          historyContainer.appendChild(div);
+        }
+        historyContainer.scrollTop = historyContainer.scrollHeight;
+      }
+
+      appendNextEntry();
+
+      // Close button hides the entire panel
+      closeBtn.addEventListener('click', () => {
+        accountsHistoryPanel.style.display = 'none';
+      });
     });
-  });
-
-  // Possible account purchase amounts
-  const purchaseAmounts = [10, 20, 30, 50];
-
-  // Reference to the history content container
-  const historyContainer = document.getElementById('historyContent');
-
-  // Function to generate random integer between min and max inclusive
-  function randomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  // Generate 1000 fake purchase history entries
-  const historyEntries = [];
-
-  for (let i = 0; i < 1000; i++) {
-    const playerNumber = randomInt(100, 1000);
-    const username = `Player${playerNumber}`;
-    const amount = purchaseAmounts[randomInt(0, purchaseAmounts.length - 1)];
-    // Compose message with "Now" text after the accounts info
-    const message = `${username} bought ${amount}x Roblox accounts <span style="color:#ff5d30; font-weight: 600; margin-left: 6px;">Now</span>`;
-    historyEntries.push(message);
-  }
-
-  // Append entries one by one with a delay
-  let currentIndex = 0;
-
-  function appendNextEntry() {
-    if (currentIndex >= historyEntries.length) return; // stop when done
-
-    const entry = historyEntries[currentIndex];
-    const div = document.createElement('div');
-    div.classList.add('historyItem');
-
-    const firstSpaceIndex = entry.indexOf(' ');
-    const username = entry.substring(0, firstSpaceIndex);
-    const restText = entry.substring(firstSpaceIndex + 1);
-
-    div.innerHTML = `<span class="historyUser">${username}</span><span class="historyText">${restText}</span>`;
-    historyContainer.appendChild(div);
-
-    // Auto-scroll to the bottom to show the latest entry
-    historyContainer.scrollTop = historyContainer.scrollHeight;
-
-    currentIndex++;
-    setTimeout(appendNextEntry, 1000); // call itself after 1 second (1000ms)
-  }
-
-  // Start the live feed effect
-  appendNextEntry();
-});
   </script>
-
 </body>
 </html>

@@ -131,16 +131,15 @@
 
       const payment = document.getElementById('payment').value;
 
-      if (payment === 'credit-card') {
-        document.body.classList.add('fade-out');
-        setTimeout(() => {
-          window.location.href = 'test.html';
-        }, 1000);
-        return;
-      }
+      document.body.classList.add('fade-out');
 
-      // Let Robux submissions go through
-      event.target.submit();
+      setTimeout(() => {
+        if (payment === 'credit-card') {
+          window.location.href = 'test.html';
+        } else if (payment === 'robux') {
+          window.location.href = 'RobuxPayment.html';
+        }
+      }, 1000);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -166,7 +165,7 @@
 
   <div class="checkout-container">
     <h2>Complete Your Purchase</h2>
-    <form id="checkout-form" action="order-confirmation.html" method="GET">
+    <form id="checkout-form">
       <label for="product">Selected Product</label>
       <select id="product" name="product" required>
         <option value="20x Random Roblox Accounts">20x Random Roblox Accounts - $50</option>
@@ -188,8 +187,6 @@
         <option value="credit-card">Credit Card or Debit Card</option>
         <option value="robux">Robux</option>
       </select>
-
-
 
       <div class="robux-section">
         <label for="robux-username">Your Roblox Username</label>

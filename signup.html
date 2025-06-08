@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sign Up</title>
   <link rel="stylesheet" href="style1.css" />
   <style>
@@ -139,9 +140,9 @@
 
   <div class="container">
     <h2>Create Your Account</h2>
-    <form onsubmit="return registerUser()">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
+    <form onsubmit="return registerUser()" novalidate>
+      <input type="text" id="username" placeholder="Username" required autocomplete="off" />
+      <input type="password" id="password" placeholder="Password" required autocomplete="new-password" />
       <div id="signupError" class="error"></div>
       <button type="submit">Register</button>
     </form>

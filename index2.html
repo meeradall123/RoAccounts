@@ -315,11 +315,19 @@
   </style>
 </head>
 <body>
-
   <header>
     <h1>RoAccounts</h1>
     <p>Your Source for Quality Roblox Accounts</p>
-  </header>
+    <div id="userInfo" aria-live="polite" aria-atomic="true" role="region" style="visibility:hidden;">
+      <!-- Username and logout button will appear here -->
+    </div>
+    
+    <div id="userPanel" aria-label="User panel" style="position:absolute; top:1.5rem; right:2rem; display:flex; align-items:center; gap:1rem; color:#ff5d30; font-weight:600; font-size:1rem; user-select:none;">
+  <span id="usernameDisplay">User123</span>
+  <a href="login.html">
+  <button id="logoutBtn" type="button" style="background:#ff5d30; border:none; color:#1e1e1e; font-weight:700; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer; user-select:none; transition: background-color 0.3s ease;">Log Out</button>
+  </a>
+</header>
 
   <nav role="navigation" aria-label="Primary navigation">
     <a href="index.html">Home</a>
@@ -365,22 +373,7 @@
     <p>&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</p>
   </footer>
 
-  <!-- Accounts Bought History Panel -->
-  <div
-    id="accountsHistory"
-    role="complementary"
-    aria-label="Accounts Bought History"
-    aria-live="polite"
-    aria-relevant="additions"
-  >
-    <header>
-      Accounts Bought History
-      <button id="closeHistoryBtn" aria-label="Close accounts bought history panel" type="button">Close</button>
-    </header>
-    <div class="historyContent" id="historyContent" tabindex="0">
-      <!-- History items will be appended here by JavaScript -->
-    </div>
-  </div>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -476,5 +469,33 @@
       });
     });
   </script>
+
+  <script>
+  // Check if user is logged in
+  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+  const currentUsername = localStorage.getItem("currentUsername");
+
+  if (!isLoggedIn || !currentUsername) {
+    // Redirect to login if not logged in
+    window.location.href = "login.html";
+  } else {
+    // Show the username
+    const usernameDisplay = document.getElementById("usernameDisplay");
+    if (usernameDisplay) {
+      usernameDisplay.textContent = currentUsername;
+    }
+
+    // Make user panel visible (optional if hidden initially)
+    document.getElementById("userInfo").style.visibility = "visible";
+  }
+
+  // Handle logout
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("currentUsername");
+    window.location.href = "login.html";
+  });
+</script>
+
 </body>
 </html>

@@ -7,7 +7,6 @@
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
   <style>
     /* Base Styles */
     body {
@@ -318,16 +317,13 @@
   <header>
     <h1>RoAccounts</h1>
     <p>Your Source for Quality Roblox Accounts</p>
-    <div id="userInfo" aria-live="polite" aria-atomic="true" role="region" style="visibility:hidden;">
-      <!-- Username and logout button will appear here -->
-    </div>
-    
+    <div id="userInfo" aria-live="polite" aria-atomic="true" role="region" style="visibility:hidden;"></div>
+
     <div id="userPanel" aria-label="User panel" style="position:absolute; top:1.5rem; right:2rem; display:flex; align-items:center; gap:1rem; color:#ff5d30; font-weight:600; font-size:1rem; user-select:none;">
-  <span id="usernameDisplay">User123</span>
-  <a href="login.html">
-  <button id="logoutBtn" type="button" style="background:#ff5d30; border:none; color:#1e1e1e; font-weight:700; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer; user-select:none; transition: background-color 0.3s ease;">Log Out</button>
-  </a>
-</header>
+      <span id="usernameDisplay">User123</span>
+      <button id="logoutBtn" type="button" style="background:#ff5d30; border:none; color:#1e1e1e; font-weight:700; padding:0.3rem 0.7rem; border-radius:6px; cursor:pointer;">Log Out</button>
+    </div>
+  </header>
 
   <nav role="navigation" aria-label="Primary navigation">
     <a href="index.html">Home</a>
@@ -343,38 +339,34 @@
     <div class="item" role="listitem" tabindex="0">
       <h3>20x Random Roblox Accounts</h3>
       <p>Each Account Has 2000-5000 Robux.</p>
-      <button
-        data-url="checkout.html"
-        aria-label="Buy 20x Random Roblox Accounts for 50 dollars"
-        type="button"
-      >Buy for 50$</button>
+      <button data-url="checkout.html" aria-label="Buy 20x Random Roblox Accounts for 50 dollars" type="button">Buy for 50$</button>
     </div>
     <div class="item" role="listitem" tabindex="0">
       <h3>10x Roblox Accounts</h3>
       <p>Each Account Has 5000-10000 Robux.</p>
-      <button
-        data-url="checkout.html"
-        aria-label="Buy 10x Roblox Accounts for 20 dollars"
-        type="button"
-      >Buy for 20$</button>
+      <button data-url="checkout.html" aria-label="Buy 10x Roblox Accounts for 20 dollars" type="button">Buy for 20$</button>
     </div>
     <div class="item" role="listitem" tabindex="0">
       <h3>30x Roblox Accounts</h3>
       <p>Each Account has 10000-15000 Robux.</p>
-      <button
-        data-url="checkout.html"
-        aria-label="Buy 30x Roblox Accounts for 85 dollars"
-        type="button"
-      >Buy for 85$</button>
+      <button data-url="checkout.html" aria-label="Buy 30x Roblox Accounts for 85 dollars" type="button">Buy for 85$</button>
     </div>
   </section>
+
+  <!-- ✅ ADDED: Purchase History Live Panel -->
+  <div id="accountsHistory">
+    <header>
+      <span>Recent Purchases</span>
+      <button id="closeHistoryBtn" aria-label="Close history panel">✖</button>
+    </header>
+    <div class="historyContent" id="historyContent" role="log" aria-live="polite"></div>
+  </div>
 
   <footer>
     <p>&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</p>
   </footer>
 
-
-
+  <!-- Scripts -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const buttons = document.querySelectorAll('.item button');
@@ -382,7 +374,6 @@
       const closeBtn = document.getElementById('closeHistoryBtn');
       const accountsHistoryPanel = document.getElementById('accountsHistory');
 
-      // Confirm before redirecting to checkout
       buttons.forEach(button => {
         button.addEventListener('click', (e) => {
           e.preventDefault();
@@ -398,15 +389,12 @@
         });
       });
 
-      // Purchase amounts for the fake history
       const purchaseAmounts = [10, 20, 30, 50];
 
-      // Random int helper
       function randomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
 
-      // Generate 1000 fake purchase history entries
       const historyEntries = [];
       for (let i = 0; i < 1000; i++) {
         const playerNumber = randomInt(100, 1000);
@@ -421,33 +409,25 @@
 
       function appendNextEntry() {
         if (currentIndex >= historyEntries.length) return;
-
         const entry = historyEntries[currentIndex];
         const div = document.createElement('div');
         div.classList.add('historyItem');
 
-        // Split username from rest of message safely
         const firstSpaceIndex = entry.indexOf(' ');
         const username = entry.substring(0, firstSpaceIndex);
         const restText = entry.substring(firstSpaceIndex + 1);
-
         div.innerHTML = `<span class="historyUser">${username}</span><span class="historyText">${restText}</span>`;
         historyContainer.appendChild(div);
-
-        // Auto-scroll to bottom with smooth behavior
         historyContainer.scrollTo({ top: historyContainer.scrollHeight, behavior: 'smooth' });
 
         currentIndex++;
         localStorage.setItem('purchaseHistoryIndex', currentIndex);
-
         appendTimeout = setTimeout(appendNextEntry, 1000);
       }
 
-      // Load last saved index or start fresh
       const savedIndex = parseInt(localStorage.getItem('purchaseHistoryIndex'), 10);
       if (!isNaN(savedIndex) && savedIndex > 0 && savedIndex < historyEntries.length) {
         currentIndex = savedIndex;
-        // Pre-fill history with already loaded entries
         for (let i = 0; i < currentIndex; i++) {
           const entry = historyEntries[i];
           const div = document.createElement('div');
@@ -463,7 +443,6 @@
 
       appendNextEntry();
 
-      // Close button hides the entire panel
       closeBtn.addEventListener('click', () => {
         accountsHistoryPanel.style.display = 'none';
       });
@@ -471,31 +450,24 @@
   </script>
 
   <script>
-  // Check if user is logged in
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-  const currentUsername = localStorage.getItem("currentUsername");
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    const currentUsername = localStorage.getItem("currentUsername");
 
-  if (!isLoggedIn || !currentUsername) {
-    // Redirect to login if not logged in
-    window.location.href = "login.html";
-  } else {
-    // Show the username
-    const usernameDisplay = document.getElementById("usernameDisplay");
-    if (usernameDisplay) {
-      usernameDisplay.textContent = currentUsername;
+    if (!isLoggedIn || !currentUsername) {
+      window.location.href = "login.html";
+    } else {
+      const usernameDisplay = document.getElementById("usernameDisplay");
+      if (usernameDisplay) {
+        usernameDisplay.textContent = currentUsername;
+      }
+      document.getElementById("userInfo").style.visibility = "visible";
     }
 
-    // Make user panel visible (optional if hidden initially)
-    document.getElementById("userInfo").style.visibility = "visible";
-  }
-
-  // Handle logout
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("loggedIn");
-    localStorage.removeItem("currentUsername");
-    window.location.href = "login.html";
-  });
-</script>
-
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("currentUsername");
+      window.location.href = "login.html";
+    });
+  </script>
 </body>
 </html>

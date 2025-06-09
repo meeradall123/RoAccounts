@@ -89,13 +89,13 @@ if (username) {
   document.getElementById("user-info").style.display = "block";
 } else {
   // Redirect to login page if not logged in
-  window.location.href = "login.html";
+  window.location.href = "./login";
 }
 
 // Logout function
 function logout() {
   localStorage.removeItem("loggedInUser");
-  window.location.href = "login.html";
+  window.location.href = "./loginl";
 }
 
 }

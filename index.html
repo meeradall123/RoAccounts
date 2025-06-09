@@ -17,8 +17,6 @@
       height: 100vh;
       text-align: center;
       position: relative;
-
-      /* Start transparent for fade-in */
       opacity: 0;
       animation: fadeIn 1s ease forwards;
     }
@@ -110,11 +108,19 @@
     const clickSound = document.getElementById('clickSound');
 
     shopBtn.addEventListener('click', function(event) {
-      // Play click sound
+      event.preventDefault(); // Prevent default anchor behavior
       clickSound.currentTime = 0;
       clickSound.play();
-      // Note: Redirect will happen immediately after click because it's an anchor link,
-      // sound might cut off. To fix, you can delay navigation a bit if you want.
+
+      // Delay navigation to allow sound to play
+      setTimeout(() => {
+        const hasLoggedIn = localStorage.getItem('hasLoggedIn');
+        if (hasLoggedIn === 'true') {
+          window.location.href = 'index2.html'; // Redirect to shop if logged in
+        } else {
+          window.location.href = 'login.html'; // Redirect to login otherwise
+        }
+      }, 200);
     });
   </script>
 

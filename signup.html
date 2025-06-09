@@ -2,156 +2,410 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sign Up</title>
-  <link rel="stylesheet" href="style1.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animation Signup Form</title>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+    :root {
+      --white-color: hsl(0,0%,100%);
+      --black-color: hsl(0, 0% , 0%);
+      --body-font: "Poppins", sans-serif;
+      --h1-font-size: 1.75rem;
+      --normal-font-size: 1rem;
+      --small-font-size: .813rem;
+      --font-medium: 500;
+      --blue-color: #007bff;
+    }
     * {
       box-sizing: border-box;
+      padding: 0;
+      margin: 0;
     }
 
-    body {
+    /* Added to make background image cover full viewport */
+    html, body {
       margin: 0;
       padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #20204d, #080846);
-      color: white;
-      animation: fadeIn 0.8s ease forwards;
-      opacity: 0;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    .container {
-      max-width: 420px;
-      margin: 100px auto;
-      padding: 2.5rem 2rem;
-      background: #2f2f4f;
-      border-radius: 12px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-      transition: transform 0.3s ease;
-    }
-
-    .container:hover {
-      transform: translateY(-4px);
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 1.8rem;
-      font-size: 1.8rem;
-      letter-spacing: 0.5px;
-    }
-
-    input {
+      height: 100%;
       width: 100%;
-      padding: 0.85rem;
-      margin-bottom: 1.2rem;
-      border: 1px solid #444;
-      background-color: #3a3a5a;
-      color: white;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
+      background: #000; /* fallback background */
     }
 
-    input:focus {
-      outline: none;
-      border-color: #3f32f3;
-    }
-
-    .error {
-      color: #ff4d4f;
-      text-align: center;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
+    body,
+    input,
     button {
-      width: 100%;
-      padding: 0.95rem;
-      background-color: #3f32f3;
-      color: white;
+      font-size: var(--normal-font-size);
+      font-family: var(--body-font);
+      color: var(--white-color);
+    }
+
+    input,
+    button {
       border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s;
-    }
-
-    button:hover {
-      background-color: #3f32f3;
-      transform: translateY(-1px);
-    }
-
-    p {
-      text-align: center;
-      margin-top: 1.5rem;
-      font-size: 0.95rem;
+      outline: none;
+      background: none;
+      color: var(--white-color);
     }
 
     a {
-      color: #3f32f3;
       text-decoration: none;
-      font-weight: 500;
     }
 
-    a:hover {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .login {
+      position: relative;
+      width: 100vw;       /* full viewport width */
+      height: 100vh;      /* full viewport height */
+      display: grid;
+      align-items: center;
+      justify-content: center; /* center horizontally */
+      overflow: hidden;   /* prevent scrollbars */
+    }
+
+    .login__img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: -1; /* behind form */
+    }
+
+    .login__form {
+      position: relative;
+      background-color: hsla(0, 0%, 10%, 0.1);
+      border: 2px solid var(--white-color);
+      margin-inline: 1.5rem;
+      padding: 2.5rem 1.5rem;
+      border-radius: 1rem;
+      backdrop-filter: blur(8px);
+      z-index: 1;
+    }
+
+    .login__title {
+      text-align: center;
+      font-size: var(--h1-font-size);
+      font-weight: var(--font-medium);
+      margin-bottom: 2rem;
+      text-transform: capitalize;
+    }
+
+    .login__content, .login__box {
+      display: grid;
+    }
+
+    .login__content {
+      row-gap: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .login__box {
+      grid-template-columns: max-content 1fr;
+      align-items: center;
+      column-gap: 0.75rem;
+      border-bottom: 2px solid var(--white-color);
+    }
+
+    .login__icon, .login__eye {
+      font-size: 1.25rem;
+    }
+
+    .login__input {
+      width: 100%;
+      padding-block: 0.8rem;
+      background: none;
+      color: var(--white-color);
+      position: relative;
+      z-index: 1;
+      font-size: 1rem;
+    }
+
+    .login__box-input {
+      position: relative;
+    }
+
+    .login__label {
+      position: absolute;
+      left: 0;
+      top: 13px;
+      font-weight: var(--font-medium);
+      pointer-events: none;
+      transition: top 0.3s, font-size 0.3s;
+      color: var(--white-color);
+      user-select: none;
+    }
+
+    .login__eye {
+      position: absolute;
+      right: 0;
+      top: 18px;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .login__box:nth-child(2) input {
+      padding-right: 1.8rem;
+    }
+
+    .login__check, .login__check-group {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .login__check {
+      margin-bottom: 1.5rem;
+    }
+
+    .login__check-label, .login__forgot, .login__register {
+      font-size: var(--small-font-size);
+    }
+
+    .login__check-group {
+      column-gap: 0.5rem;
+    }
+
+    .login__check-input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .login__forgot {
+      color: var(--white-color);
+    }
+
+    .login__forgot:hover {
       text-decoration: underline;
     }
 
-    .notification {
-      display: none;
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #28a745;
-      color: white;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
-      z-index: 1000;
-      animation: slideFade 0.5s ease;
+    .login__button {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      background-color: var(--blue-color);
+      font-weight: var(--font-medium);
+      cursor: pointer;
+      margin-bottom: 2rem;
+      color: var(--white-color);
+      transition: background-color 0.3s ease;
     }
 
-    @keyframes slideFade {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
+    /* Button hover is blue, button default stays white background and black text */
+    .login__button:hover {
+      background-color: var(--blue-color);
+      color: var(--white-color);
+    }
+
+    .login__register {
+      text-align: center;
+    }
+
+    /* Register link is blue by default and on hover */
+    .login__register a {
+      color: var(--blue-color);
+      font-weight: var(--font-medium);
+      transition: color 0.3s ease;
+    }
+
+    .login__register a:hover {
+      text-decoration: underline;
+      color: var(--blue-color);
+    }
+
+    /* Fix for floating label on input focus and when input has text */
+    .login__input:focus + .login__label,
+    .login__input:not(:placeholder-shown) + .login__label {
+      top: -12px;
+      font-size: var(--small-font-size);
+      color: var(--blue-color);
+    }
+
+    /* for medium devices */
+    @media screen and (min-width: 576px) {
+      .login {
+        justify-content: center;
       }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
+      .login__form {
+        width: 432px;
+        padding: 4rem 3rem 3.5rem;
+        border-radius: 1.5rem;
       }
+      .login__title {
+        font-size: 2rem;
+      }
+    }
+
+    /* error and notification styles */
+    #signupError, #signupNotification {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      display: none;
+    }
+
+    #signupError {
+      color: #ff4d4d;
+    }
+
+    #signupNotification {
+      color: #4BB543;
     }
   </style>
 </head>
 <body>
+  <div class="login">
+    <img src="C:\Users\ara tec\Downloads\login-bg.png" alt="login image" class="login__img" />
 
-  <div class="notification" id="signupNotification">Registered Successfully</div>
+    <form class="login__form" onsubmit="return signupUser()">
+      <h1 class="login__title">Sign Up</h1>
 
-  <div class="container">
-    <h2>Create Your Account</h2>
-    <form onsubmit="return registerUser()" novalidate>
-      <input type="text" id="username" placeholder="Username" required autocomplete="off" />
-      <input type="password" id="password" placeholder="Password" required autocomplete="new-password" />
-      <div id="signupError" class="error"></div>
-      <button type="submit">Register</button>
+      <div id="signupError"></div>
+      <div id="signupNotification"></div>
+
+      <div class="login__content">
+        <div class="login__box">
+          <i class="bx bx-user login__icon"></i>
+          <div class="login__box-input">
+            <input
+              type="text"
+              id="signupUsername"
+              required
+              class="login__input"
+              placeholder=" "
+              autocomplete="username"
+            />
+            <label for="signupUsername" class="login__label">Username</label>
+          </div>
+        </div>
+
+        <div class="login__box">
+          <i class="ri-mail-line login__icon"></i>
+          <div class="login__box-input">
+            <input
+              type="email"
+              id="signupEmail"
+              required
+              class="login__input"
+              placeholder=" "
+              autocomplete="email"
+            />
+            <label for="signupEmail" class="login__label">Email</label>
+          </div>
+        </div>
+
+        <div class="login__box">
+          <i class="ri-lock-2-line login__icon"></i>
+          <div class="login__box-input">
+            <input
+              type="password"
+              id="signupPassword"
+              required
+              class="login__input"
+              placeholder=" "
+              autocomplete="new-password"
+            />
+            <label for="signupPassword" class="login__label">Password</label>
+            <i class="ri-eye-off-line login__eye" id="signup-eye"></i>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="login__button">Sign Up</button>
+
+      <p class="login__register">
+        Already have an account? <a href="login.html">Login</a>
+      </p>
     </form>
-    <p>
-      Already have an account?
-      <a href="./login">Login</a>
-    </p>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Show/hide password toggle
+    const showHiddenPass = (inputId, eyeId) => {
+      const input = document.getElementById(inputId),
+        iconEye = document.getElementById(eyeId);
+
+      iconEye.addEventListener("click", () => {
+        if (input.type === "password") {
+          input.type = "text";
+          iconEye.classList.add("ri-eye-line");
+          iconEye.classList.remove("ri-eye-off-line");
+        } else {
+          input.type = "password";
+          iconEye.classList.remove("ri-eye-line");
+          iconEye.classList.add("ri-eye-off-line");
+        }
+      });
+    };
+
+    showHiddenPass("signupPassword", "signup-eye");
+
+    // Signup logic
+    function signupUser() {
+      const usernameInput = document.getElementById("signupUsername");
+      const emailInput = document.getElementById("signupEmail");
+      const passwordInput = document.getElementById("signupPassword");
+      const error = document.getElementById("signupError");
+      const notification = document.getElementById("signupNotification");
+
+      if (!usernameInput || !emailInput || !passwordInput || !error || !notification) {
+        console.error("Required elements missing in the DOM.");
+        return false;
+      }
+
+      const username = usernameInput.value.trim();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (username.length < 3) {
+        error.textContent = "Username must be at least 3 characters.";
+        error.style.display = "block";
+        notification.style.display = "none";
+        return false;
+      }
+
+      // Basic email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        error.textContent = "Please enter a valid email.";
+        error.style.display = "block";
+        notification.style.display = "none";
+        return false;
+      }
+
+      if (password.length < 6) {
+        error.textContent = "Password must be at least 6 characters.";
+        error.style.display = "block";
+        notification.style.display = "none";
+        return false;
+      }
+
+      // Save user data (for demo, in real apps don't store passwords in plain localStorage)
+      const user = { username, email, password };
+      localStorage.setItem("user", JSON.stringify(user));
+
+      error.textContent = "";
+      error.style.display = "none";
+
+      notification.textContent = "Signup successful!";
+      notification.style.display = "block";
+
+      usernameInput.value = "";
+      emailInput.value = "";
+      passwordInput.value = "";
+
+      setTimeout(() => {
+        notification.style.display = "none";
+        window.location.href = "login.html"; // Redirect to login after signup
+      }, 3000);
+
+      return false; // prevent form submission
+    }
+  </script>
 </body>
 </html>

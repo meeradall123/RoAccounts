@@ -80,22 +80,4 @@ function showLoginNotification(message) {
     notification.style.display = "none";
     window.location.href = "./Products"; // Redirect after login
   }, 3000);
-
-  // Check if user is logged in
-const username = localStorage.getItem("loggedInUser");
-
-if (username) {
-  document.getElementById("username").textContent = username;
-  document.getElementById("user-info").style.display = "block";
-} else {
-  // Redirect to login page if not logged in
-  window.location.href = "./login";
-}
-
-// Logout function
-function logout() {
-  localStorage.removeItem("loggedInUser");
-  window.location.href = "./loginl";
-}
-
 }

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Robux Payment - RoAccounts</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    header, footer {
+      background-color: #1e1e1e;
+      color: white;
+      text-align: center;
+      padding: 1rem 2rem;
+    }
+
+    nav {
+      background-color: #3f32f3;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    nav a {
+      color: white;
+      margin: 0 1rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #1e1e1e;
+    }
+
+    p {
+      text-align: center;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      color: #666;
+    }
+
+    .products {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fafafa;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .product:hover {
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    .product-info h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .product-info span {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    .buy-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .buy-btn:hover {
+      background-color: #218838;
+    }
+
+    .complete-order-btn {
+      background-color: #3f32f3;
+      margin-top: 3rem;
+    }
+
+    .complete-order-btn:hover {
+      background-color: #00ee34;
+    }
+
+    .error-message {
+      display: none;
+      color: red;
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    footer p {
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      .product {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .buy-btn {
+        margin-top: 1rem;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RoAccounts</h1>
+    <p>Robux Payment Portal</p>
+  </header>
+
+  <nav>
+    <a href="loadingshop.html">Shop</a>
+    <a href="loadingcontact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <h2>Select Your Product</h2>
+    <p>Click the button below to purchase the corresponding gamepass using Robux.</p>
+
+    <div class="products">
+      <div class="product">
+        <div class="product-info">
+          <h3>20x Random Roblox Accounts</h3>
+          <span>Price: $50 via Robux</span>
+        </div>
+        <a class="buy-btn" href="https://www.roblox.com/game-pass/1239467285/94jfd14" target="_blank" onclick="markAsPurchased()">Buy with Robux</a>
+      </div>
+
+      <div class="product">
+        <div class="product-info">
+          <h3>10x Roblox Accounts</h3>
+          <span>Price: $20 via Robux</span>
+        </div>
+        <a class="buy-btn" href="https://www.roblox.com/game-pass/1240220373/203034" target="_blank" onclick="markAsPurchased()">Buy with Robux</a>
+      </div>
+
+      <div class="product">
+        <div class="product-info">
+          <h3>30x Roblox Accounts</h3>
+          <span>Price: $85 via Robux</span>
+        </div>
+        <a class="buy-btn" href="https://www.roblox.com/game-pass/1240016653/21451f1f1" target="_blank" onclick="markAsPurchased()">Buy with Robux</a>
+      </div>
+    </div>
+
+    <!-- Complete Order Button -->
+    <div style="text-align: center; margin-top: 3rem;">
+      <button onclick="completeOrder()" class="buy-btn complete-order-btn">Complete Order</button>
+      <div class="error-message" id="errorMessage">⚠ Please purchase a gamepass before completing the order.</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</p>
+  </footer>
+
+  <script>
+    let hasPurchased = false;
+
+    function markAsPurchased() {
+      hasPurchased = true;
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    function completeOrder() {
+      if (hasPurchased) {
+        window.location.href = "order-confirmation.html";
+      } else {
+        document.getElementById('errorMessage').style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

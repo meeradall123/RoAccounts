@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Loading...</title>
+<style>
+  /* Full white background */
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Spinner styles */
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid #ccc;
+    border-top-color: #333;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="spinner" role="status" aria-label="Loading"></div>
+
+<script>
+  // Redirect after 5 seconds
+  setTimeout(() => {
+    window.location.href = 'FiPay.html';
+  }, 5000);
+</script>
+
+</body>
+</html>

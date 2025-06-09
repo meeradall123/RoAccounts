@@ -2,48 +2,387 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login</title>
-  <link rel="stylesheet" href="style1.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animation Login Form </title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    /* Basic fade-in animation and styles to match signup page (optional) */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #20204d, #080846);
-      color: white;
-      animation: fadeIn 0.8s ease forwards;
-      opacity: 0;
-    }
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
+:root {
+  --white-color: hsl(0,0%,100%);
+  --black-color: hsl(0, 0% , 0%);
+  --body-font: "Poppins", sans-serif;
+  --h1-font-size: 1.75rem;
+  --normal-font-size: 1rem;
+  --small-font-size: .813rem;
+  --font-medium: 500;
+  --blue-color: #1E90FF; /* From previous */
+}
 
-    /* You can move these styles to style1.css if you want */
-  </style>
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body,
+input,
+button {
+  font-size: var(--normal-font-size);
+  font-family: var(--body-font);
+}
+
+body {
+  color: var(--white-color);
+}
+
+input,
+button {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Container and background image */
+.login {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.login__img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+}
+
+/* Form container */
+.login__form {
+  position: relative;
+  background-color: hsla(0, 0%, 10%, 0.1);
+  border: 2px solid var(--white-color);
+  margin-inline: 1.5rem;
+  padding: 2.5rem 1.5rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(8px);
+}
+
+/* Title */
+.login__title {
+  text-align: center;
+  font-size: var(--h1-font-size);
+  font-weight: var(--font-medium);
+  margin-bottom: 2rem;
+  text-transform: capitalize;
+}
+
+/* Content & boxes */
+.login__content, .login__box {
+  display: grid;
+}
+
+.login__content {
+  row-gap: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.login__box {
+  grid-template-columns: max-content 1fr;
+  align-items: center;
+  column-gap: 0.75rem;
+  border-bottom: 2px solid var(--white-color);
+}
+
+.login__icon, .login__eye {
+  font-size: 1.25rem;
+}
+
+/* Input styling */
+.login__input {
+  width: 100%;
+  padding-block: 0.8rem;
+  background: none;
+  color: var(--white-color);
+  position: relative;
+  z-index: 1;
+}
+
+.login__box-input {
+  position: relative;
+}
+
+/* Floating label */
+.login__label {
+  position: absolute;
+  left: 0;
+  top: 13px;
+  font-weight: var(--font-medium);
+  transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+  pointer-events: none;
+}
+
+/* Show/hide password eye */
+.login__eye {
+  position: absolute;
+  right: 0;
+  top: 18px;
+  z-index: 10;
+  cursor: pointer;
+}
+
+/* Padding for password input for eye */
+.login__box:nth-child(2) input {
+  padding-right: 1.8rem;
+}
+
+/* Checkbox and groups */
+.login__check, .login__check-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login__check {
+  margin-bottom: 1.5rem;
+}
+
+.login__check-label, .login__forgot, .login__register {
+  font-size: var(--small-font-size);
+}
+
+
+.login__check-group {
+  column-gap: 0.5rem;
+}
+
+.login__check-input {
+  width: 16px;
+  height: 16px;
+}
+
+/* Forgot link */
+.login__forgot {
+  color: var(--white-color);
+}
+
+.login__forgot:hover {
+  text-decoration: underline;
+}
+
+/* Button styling */
+.login__button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--blue-color);
+  color: white;
+  font-weight: var(--font-medium);
+  cursor: pointer;
+  margin-bottom: 2rem;
+  transition: none; /* Disable hover transition */
+}
+
+.login__button:hover {
+  background-color: var(--blue-color);
+  color: white;
+  cursor: pointer;
+}
+
+/* Register text */
+.login__register {
+  text-align: center;
+}
+
+.login__register a {
+  color: var(--blue-color);
+  font-weight: var(--font-medium);
+}
+
+.login__register a:hover {
+  text-decoration: underline;
+}
+
+/* FLOATING LABEL FIX: label floats when input focused or has value */
+.login__input:focus + .login__label,
+.login__input:not(:placeholder-shown) + .login__label {
+  top: -12px;
+  font-size: var(--small-font-size);
+  color: var(--white-color); /* White on focus */
+}
+
+/* For medium devices */
+@media screen and (min-width: 576px) {
+  .login {
+    justify-content: center;
+  }
+  .login__form {
+    width: 432px;
+    padding: 4rem 3rem 3.5rem;
+    border-radius: 1.5rem;
+  }
+  .login__title {
+    font-size: 2rem;
+  }
+}
+
+/* Error and notification messages */
+#loginError, #loginNotification {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  display: none;
+}
+
+#loginError {
+  color: #ff4d4d;
+}
+
+#loginNotification {
+  color: #4BB543;
+}
+
+</style>
+
 </head>
 <body>
+  <div class="login">
 
-  <div class="notification" id="loginNotification" style="display:none;">Login Succeed</div>
 
-  <div class="container">
-    <h2>Login to Your Account</h2>
-    <form onsubmit="return loginUser()" novalidate>
-      <input type="text" id="loginUsername" placeholder="Username" required autocomplete="username" />
-      <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password" />
-      <div id="loginError" class="error"></div>
-      <button type="submit">Login</button>
+    <form class="login__form" onsubmit="return loginUser()">
+      <h1 class="login__title">Login</h1>
+
+      <div id="loginError"></div>
+      <div id="loginNotification"></div>
+
+      <div class="login__content">
+        <div class="login__box">
+          <i class="bx bx-user login__icon"></i>
+
+          <div class="login__box-input">
+            <input
+              type="text"
+              id="loginUsername"
+              required
+              class="login__input"
+              placeholder=" "
+              autocomplete="username"
+            />
+            <label for="loginUsername" class="login__label">Username</label>
+          </div>
+        </div>
+
+        <div class="login__box">
+          <i class="ri-lock-2-line login__icon"></i>
+
+          <div class="login__box-input">
+            <input
+              type="password"
+              id="loginPassword"
+              required
+              class="login__input"
+              placeholder=" "
+              autocomplete="current-password"
+            />
+            <label for="loginPassword" class="login__label">Password</label>
+            <i class="ri-eye-off-line login__eye" id="login-eye"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="login__check">
+        <div class="login__check-group">
+          <input type="checkbox" class="login__check-input" id="rememberMe" />
+          <label for="rememberMe" class="login__check-label">Remember me</label>
+        </div>
+
+
+      </div>
+
+      <button type="submit" class="login__button">Login</button>
+
+      <p class="login__register">
+        Don't have an account? <a href="signup.html">Register</a>
+      </p>
     </form>
-    <p>
-      Don't have an account?
-      <a href="./signup">Sign up</a>
-    </p>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Show/hide password toggle
+    const showHiddenPass = (loginPass, LoginEye) => {
+      const input = document.getElementById(loginPass),
+        iconEye = document.getElementById(LoginEye);
+
+      iconEye.addEventListener("click", () => {
+        if (input.type === "password") {
+          input.type = "text";
+          iconEye.classList.add("ri-eye-line");
+          iconEye.classList.remove("ri-eye-off-line");
+        } else {
+          input.type = "password";
+          iconEye.classList.remove("ri-eye-line");
+          iconEye.classList.add("ri-eye-off-line");
+        }
+      });
+    };
+
+    showHiddenPass("loginPassword", "login-eye");
+
+    // Login logic using your provided function
+    function loginUser() {
+      const usernameInput = document.getElementById("loginUsername");
+      const passwordInput = document.getElementById("loginPassword");
+      const error = document.getElementById("loginError");
+      const notification = document.getElementById("loginNotification");
+
+      if (!usernameInput || !passwordInput || !error || !notification) {
+        console.error("Required elements missing in the DOM.");
+        return false;
+      }
+
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      const stored = JSON.parse(localStorage.getItem("user"));
+
+      if (!stored || username !== stored.username || password !== stored.password) {
+        error.textContent = "Invalid credentials.";
+        error.style.display = "block";
+        notification.style.display = "none";
+        return false;
+      }
+
+      localStorage.setItem("loggedIn", "true");
+      error.textContent = "";
+      error.style.display = "none";
+      usernameInput.value = "";
+      passwordInput.value = "";
+
+      notification.textContent = "Login Succeed";
+      notification.style.display = "block";
+
+      setTimeout(() => {
+        notification.style.display = "none";
+        window.location.href = "loadingshop.html";
+      }, 3000);
+
+      return false; // Prevent form submit
+    }
+  </script>
 </body>
 </html>

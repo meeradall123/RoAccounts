@@ -14,35 +14,43 @@
       animation: fadeIn 1s ease forwards;
       transition: opacity 1s ease;
     }
+
     @keyframes fadeIn {
       to { opacity: 1; }
     }
+
     @keyframes fadeOut {
       to { opacity: 0; }
     }
+
     body.fade-out {
       animation: fadeOut 1s ease forwards;
     }
+
     header, footer {
       background-color: #1e1e1e;
       color: white;
       padding: 1rem 2rem;
       text-align: center;
     }
+
     nav {
       background-color: #ff5d30;
       padding: 1rem;
       text-align: center;
     }
+
     nav a {
       color: white;
       margin: 0 1rem;
       text-decoration: none;
       font-weight: bold;
     }
+
     nav a:hover {
       text-decoration: underline;
     }
+
     .checkout-container {
       max-width: 500px;
       margin: 2rem auto;
@@ -51,16 +59,19 @@
       border-radius: 10px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
     }
+
     h2 {
       text-align: center;
       color: #1e1e1e;
       margin-bottom: 1rem;
     }
+
     label {
       display: block;
       margin: 1rem 0 0.5rem;
       font-weight: bold;
     }
+
     input, select {
       width: 100%;
       padding: 0.8rem;
@@ -69,21 +80,26 @@
       border-radius: 6px;
       font-size: 1rem;
     }
+
     .credit-section, .robux-section, .user-info {
       display: none;
     }
+
     .gamepass-link {
       margin-top: -0.5rem;
       margin-bottom: 1.5rem;
     }
+
     .gamepass-link a {
       color: #28a745;
       font-weight: bold;
       text-decoration: none;
     }
+
     .gamepass-link a:hover {
       text-decoration: underline;
     }
+
     button.submit-btn {
       width: 100%;
       background-color: #ff5d30;
@@ -97,10 +113,12 @@
       margin-top: 1rem;
       transition: background-color 0.3s ease;
     }
+
     button.submit-btn:hover {
       background-color: #e44a1e;
     }
   </style>
+
   <script>
     function togglePaymentFields() {
       const method = document.getElementById('payment').value;
@@ -129,16 +147,10 @@
     function validateForm(event) {
       event.preventDefault();
 
-      const payment = document.getElementById('payment').value;
-
       document.body.classList.add('fade-out');
 
       setTimeout(() => {
-        if (payment === 'credit-card') {
-          window.location.href = 'test.html';
-        } else if (payment === 'robux') {
-          window.location.href = 'RobuxPayment.html';
-        }
+        window.location.href = 'loading.html';
       }, 1000);
     }
 

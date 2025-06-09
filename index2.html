@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -362,7 +362,36 @@
   </section>
 
   <footer>
-    <p>&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</p>
+    &copy; 2025 RoAccounts. All rights reserved.
   </footer>
+
+  <!-- Sound file (click) -->
+  <audio id="clickSound" src="click-sound.mp3" preload="auto" aria-hidden="true"></audio>
+
+  <script>
+    // Select all buttons inside .items section with a data-url attribute
+    const buyButtons = document.querySelectorAll('.items button[data-url]');
+    const clickSound = document.getElementById('clickSound');
+
+    buyButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const url = button.getAttribute('data-url');
+
+        if (url) {
+          // Play sound first
+          if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play();
+          }
+
+          // Delay redirect to let sound play (150ms)
+          setTimeout(() => {
+            window.location.href = url;
+          }, 150);
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

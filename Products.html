@@ -349,21 +349,22 @@
   </style>
 </head>
 <body>
-  
-  <div class="user-info">
-  <span id="username">Username</span>
-  <button id="logoutBtn">Logout</button>
-</div>
-
 
   <header>
     <h1>RoAccounts</h1>
     <p>Your Source for Quality Roblox Accounts</p>
   </header>
 
-  <nav role="navigation" aria-label="Primary navigation">
+<nav role="navigation" aria-label="Primary navigation">
+  <div class="nav-left">
+    <span id="username">Username</span>
+    <button id="logoutBtn">Logout</button>
+  </div>
+  <div class="nav-right">
     <a href="./Contact">Contact</a>
-  </nav>
+  </div>
+</nav>
+
 
   <section class="hero" role="region" aria-label="Hero section">
     <h2>Explore Roblox Accounts</h2>
@@ -431,25 +432,16 @@
       });
     });
   </script>
-
   <script>
-  // Simulate user login info
+  // Load username from localStorage (or fallback to 'Guest')
   const username = localStorage.getItem("username") || "Guest";
-
-  // Display the username
   document.getElementById("username").textContent = username;
 
-  // Logout button functionality
+  // Logout logic
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("username");
-    window.location.href = "./login"; // Adjust to your login page
+    window.location.href = "./login"; // Change this to your actual login URL
   });
 </script>
-
-
-  <body>
-
-  
-
 </body>
 </html>

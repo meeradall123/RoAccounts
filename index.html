@@ -5,125 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="favicon.png">
   <title>RoAccounts - Home</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #1e1e2f, #2c2c54);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-      position: relative;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    .container {
-      max-width: 600px;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-    }
-
-    .shop-btn {
-      background-color: #00c3ff;
-      border: none;
-      color: white;
-      padding: 15px 30px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .shop-btn:hover {
-      background-color: #009dcf;
-    }
-
-    .discord-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #5865F2;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 50px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-
-    .discord-btn:hover {
-      background-color: #4752c4;
-    }
-
-    .discord-icon {
-      width: 20px;
-      height: 20px;
-    }
-  </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body>
 
-  <!-- Discord Invite Button -->
   <a href="https://discord.gg/BStvqfrQN5" target="_blank" class="discord-btn">
     <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4ac.svg" alt="Discord" class="discord-icon" />
     Join Discord
   </a>
 
-  <div class="container">
-    <h1>RoAccounts</h1>
-    <p>Your trusted place to buy Roblox Accounts.</p>
-    <a href="./login" class="shop-btn" id="shopBtn">Shop</a>
-  </div>
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> RoAccounts</div>
+      <nav class="site-nav">
+        <a href="./Products">Shop</a>
+        <a href="./Contact">Contact</a>
+        <a href="./login">Login</a>
+      </nav>
+    </div>
+  </header>
 
-  <!-- Click sound audio -->
+  <main class="center-full-height">
+    <section class="container hero">
+      <p class="pill mb-16"><span class="badge success">Trusted</span> Roblox Account Marketplace</p>
+      <h1 class="hero-title">Buy Roblox accounts with confidence</h1>
+      <p class="hero-subtitle">A carefully curated marketplace with secure delivery and responsive support. Designed with a focus on simplicity and trust.</p>
+      <div class="mt-24">
+        <a href="./login" class="btn btn-primary" id="shopBtn">Start shopping</a>
+      </div>
+      <p class="small muted mt-16">Clicking will play a short sound and take you to the shop or login.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</div>
+  </footer>
+
   <audio id="clickSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
-
   <script>
     const shopBtn = document.getElementById('shopBtn');
     const clickSound = document.getElementById('clickSound');
-
-    shopBtn.addEventListener('click', function(event) {
-      event.preventDefault(); // Prevent default anchor behavior
-      clickSound.currentTime = 0;
-      clickSound.play();
-
-      // Delay navigation to allow sound to play
-      setTimeout(() => {
-        const hasLoggedIn = localStorage.getItem('hasLoggedIn');
-        if (hasLoggedIn === 'true') {
-          window.location.href = 'Products.html'; // Redirect to shop if logged in
-        } else {
-          window.location.href = './login'; // Redirect to login otherwise
-        }
-      }, 200);
-    });
+    if (shopBtn) {
+      shopBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        clickSound.currentTime = 0; clickSound.play();
+        setTimeout(() => {
+          const hasLoggedIn = localStorage.getItem('hasLoggedIn');
+          if (hasLoggedIn === 'true') {
+            window.location.href = 'Products.html';
+          } else {
+            window.location.href = './login';
+          }
+        }, 200);
+      });
+    }
   </script>
-
 </body>
 </html>

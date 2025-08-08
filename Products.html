@@ -376,27 +376,27 @@
       <h3>Headless/Korblox Account</h3>
       <p>Roblox Account with Both Headless And Korblox bundle.</p>
       <button
-        data-url="./checkout"
-        aria-label="Headless Acccount"
-        type="button"
+                data-url="./checkout.html"
+         aria-label="Headless Acccount"
+         type="button"
       >Buy for 50$</button>
     </div>
     <div class="item" role="listitem" tabindex="0">
       <h3>Korblox Account</h3>
       <p>Roblox Account With Korblox Bundle.</p>
       <button
-        data-url="./checkout"
-        aria-label="Korblox Account"
-        type="button"
+                data-url="./checkout.html"
+         aria-label="Korblox Account"
+         type="button"
       >Buy for 20$</button>
     </div>
     <div class="item" role="listitem" tabindex="0">
       <h3>Headless Account</h3>
       <p>Roblox Account With Headless Bundle.</p>
       <button
-        data-url="./checkout"
-        aria-label="Korblox/Headless Acccount"
-        type="button"
+                data-url="./checkout.html"
+         aria-label="Korblox/Headless Acccount"
+         type="button"
       >Buy for 85$</button>
     </div>
   </section>
@@ -440,7 +440,8 @@
   // Logout logic
   document.getElementById("logoutBtn").addEventListener("click", () => {
     localStorage.removeItem("username");
-    window.location.href = "./login.html"; // Change this to your actual login URL
+    localStorage.removeItem("loggedIn");
+    window.location.href = "./login.html";
   });
 </script>
 </body>

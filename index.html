@@ -50,8 +50,8 @@
         event.preventDefault();
         clickSound.currentTime = 0; clickSound.play();
         setTimeout(() => {
-          const hasLoggedIn = localStorage.getItem('hasLoggedIn');
-          if (hasLoggedIn === 'true') {
+                   const loggedIn = localStorage.getItem('loggedIn');
+         if (loggedIn === 'true') {
             window.location.href = 'Products.html';
           } else {
             window.location.href = './login.html';

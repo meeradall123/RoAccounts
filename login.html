@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login</title>
+  <link rel="stylesheet" href="theme.css" />
   <link rel="stylesheet" href="style.css" />
   <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
@@ -261,134 +262,98 @@ img {
 
 </head>
 <body>
-      <script>
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> RoAccounts</div>
+      <nav class="site-nav">
+        <a href="./Products.html">Shop</a>
+        <a href="./Contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container container-narrow" style="padding-top:24px; padding-bottom:24px;">
+    <div class="card floating">
+      <div class="card-header">Welcome back</div>
+      <div class="card-body">
+        <div id="loginError" style="display:none;" class="error"></div>
+        <div id="loginNotification" style="display:none;" class="notification"></div>
+
+        <form class="login__form" onsubmit="return loginUser()">
+          <h1 class="login__title">Login</h1>
+
+          <div class="login__content">
+            <div class="login__box">
+              <div class="login__box-input">
+                <input type="text" id="loginUsername" required class="login__input" placeholder=" " autocomplete="username" />
+                <label for="loginUsername" class="login__label">Username</label>
+              </div>
+            </div>
+
+            <div class="login__box">
+              <div class="login__box-input">
+                <input type="password" id="loginPassword" required class="login__input" placeholder=" " autocomplete="current-password" />
+                <label for="loginPassword" class="login__label">Password</label>
+                <i class="ri-eye-off-line login__eye" id="login-eye"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="login__check">
+            <div class="login__check-group">
+              <input type="checkbox" class="login__check-input" id="rememberMe" />
+              <label for="rememberMe" class="login__check-label">Remember me</label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%">Login</button>
+          <p class="login__register" style="text-align:center;margin-top:12px;">Don't have an account? <a href="./signup.html">Register</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</div>
+  </footer>
+
+  <script>
     // Redirect if already logged in
     if (localStorage.getItem("loggedIn") === "true") {
       window.location.href = "Products.html";
     }
-  </script>
- 
-  <div class="login">
 
-
-    <form class="login__form" onsubmit="return loginUser()">
-      <h1 class="login__title">Login</h1>
-
-      <div id="loginError"></div>
-      <div id="loginNotification"></div>
-
-      <div class="login__content">
-        <div class="login__box">
-          <i class="bx bx-user login__icon"></i>
-
-          <div class="login__box-input">
-            <input
-              type="text"
-              id="loginUsername"
-              required
-              class="login__input"
-              placeholder=" "
-              autocomplete="username"
-            />
-            <label for="loginUsername" class="login__label">Username</label>
-          </div>
-        </div>
-
-        <div class="login__box">
-          <i class="ri-lock-2-line login__icon"></i>
-
-          <div class="login__box-input">
-            <input
-              type="password"
-              id="loginPassword"
-              required
-              class="login__input"
-              placeholder=" "
-              autocomplete="current-password"
-            />
-            <label for="loginPassword" class="login__label">Password</label>
-            <i class="ri-eye-off-line login__eye" id="login-eye"></i>
-          </div>
-        </div>
-      </div>
-
-      <div class="login__check">
-        <div class="login__check-group">
-          <input type="checkbox" class="login__check-input" id="rememberMe" />
-          <label for="rememberMe" class="login__check-label">Remember me</label>
-        </div>
-
-
-      </div>
-
-      <button type="submit" class="login__button">Login</button>
-
-      <p class="login__register">
-        Don't have an account? <a href="./signup.html">Register</a>
-      </p>
-    </form>
-  </div>
-
-  <script>
     // Show/hide password toggle
     const showHiddenPass = (loginPass, LoginEye) => {
-      const input = document.getElementById(loginPass),
-        iconEye = document.getElementById(LoginEye);
-
+      const input = document.getElementById(loginPass), iconEye = document.getElementById(LoginEye);
       iconEye.addEventListener("click", () => {
         if (input.type === "password") {
-          input.type = "text";
-          iconEye.classList.add("ri-eye-line");
-          iconEye.classList.remove("ri-eye-off-line");
+          input.type = "text"; iconEye.classList.add("ri-eye-line"); iconEye.classList.remove("ri-eye-off-line");
         } else {
-          input.type = "password";
-          iconEye.classList.remove("ri-eye-line");
-          iconEye.classList.add("ri-eye-off-line");
+          input.type = "password"; iconEye.classList.remove("ri-eye-line"); iconEye.classList.add("ri-eye-off-line");
         }
       });
     };
-
     showHiddenPass("loginPassword", "login-eye");
 
-    // Login logic using your provided function
     function loginUser() {
       const usernameInput = document.getElementById("loginUsername");
       const passwordInput = document.getElementById("loginPassword");
       const error = document.getElementById("loginError");
       const notification = document.getElementById("loginNotification");
-
-      if (!usernameInput || !passwordInput || !error || !notification) {
-        console.error("Required elements missing in the DOM.");
-        return false;
-      }
-
+      if (!usernameInput || !passwordInput || !error || !notification) { return false; }
       const username = usernameInput.value.trim();
       const password = passwordInput.value.trim();
-
       const stored = JSON.parse(localStorage.getItem("user"));
-
       if (!stored || username !== stored.username || password !== stored.password) {
-        error.textContent = "Invalid credentials.";
-        error.style.display = "block";
-        notification.style.display = "none";
-        return false;
+        error.textContent = "Invalid credentials."; error.style.display = "block"; notification.style.display = "none"; return false;
       }
-
       localStorage.setItem("loggedIn", "true");
-      error.textContent = "";
-      error.style.display = "none";
-      usernameInput.value = "";
-      passwordInput.value = "";
-
-      notification.textContent = "Login Succeed";
-      notification.style.display = "block";
-
-      setTimeout(() => {
-        notification.style.display = "none";
-        window.location.href = "Products.html";
-      }, 3000);
-
-      return false; // Prevent form submit
+      localStorage.setItem("username", username);
+      error.textContent = ""; error.style.display = "none"; usernameInput.value = ""; passwordInput.value = "";
+      notification.textContent = "Login Succeed"; notification.style.display = "block";
+      setTimeout(() => { notification.style.display = "none"; window.location.href = "Products.html"; }, 1000);
+      return false;
     }
   </script>
 </body>

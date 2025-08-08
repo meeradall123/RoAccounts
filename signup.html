@@ -3,408 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>signup</title>
+  <title>Sign up</title>
+  <link rel="stylesheet" href="theme.css" />
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
-    :root {
-      --white-color: hsl(0,0%,100%);
-      --black-color: hsl(0, 0% , 0%);
-      --body-font: "Poppins", sans-serif;
-      --h1-font-size: 1.75rem;
-      --normal-font-size: 1rem;
-      --small-font-size: .813rem;
-      --font-medium: 500;
-      --blue-color: #007bff;
-    }
-    * {
-      box-sizing: border-box;
-      padding: 0;
-      margin: 0;
-    }
-
-    /* Added to make background image cover full viewport */
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      background: #000; /* fallback background */
-    }
-
-    body,
-    input,
-    button {
-      font-size: var(--normal-font-size);
-      font-family: var(--body-font);
-      color: var(--white-color);
-    }
-
-    input,
-    button {
-      border: none;
-      outline: none;
-      background: none;
-      color: var(--white-color);
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .login {
-      position: relative;
-      width: 100vw;       /* full viewport width */
-      height: 100vh;      /* full viewport height */
-      display: grid;
-      align-items: center;
-      justify-content: center; /* center horizontally */
-      overflow: hidden;   /* prevent scrollbars */
-    }
-
-    .login__img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      z-index: -1; /* behind form */
-    }
-
-    .login__form {
-      position: relative;
-      background-color: hsla(0, 0%, 10%, 0.1);
-      border: 2px solid var(--white-color);
-      margin-inline: 1.5rem;
-      padding: 2.5rem 1.5rem;
-      border-radius: 1rem;
-      backdrop-filter: blur(8px);
-      z-index: 1;
-    }
-
-    .login__title {
-      text-align: center;
-      font-size: var(--h1-font-size);
-      font-weight: var(--font-medium);
-      margin-bottom: 2rem;
-      text-transform: capitalize;
-    }
-
-    .login__content, .login__box {
-      display: grid;
-    }
-
-    .login__content {
-      row-gap: 1.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .login__box {
-      grid-template-columns: max-content 1fr;
-      align-items: center;
-      column-gap: 0.75rem;
-      border-bottom: 2px solid var(--white-color);
-    }
-
-    .login__icon, .login__eye {
-      font-size: 1.25rem;
-    }
-
-    .login__input {
-      width: 100%;
-      padding-block: 0.8rem;
-      background: none;
-      color: var(--white-color);
-      position: relative;
-      z-index: 1;
-      font-size: 1rem;
-    }
-
-    .login__box-input {
-      position: relative;
-    }
-
-    .login__label {
-      position: absolute;
-      left: 0;
-      top: 13px;
-      font-weight: var(--font-medium);
-      pointer-events: none;
-      transition: top 0.3s, font-size 0.3s;
-      color: var(--white-color);
-      user-select: none;
-    }
-
-    .login__eye {
-      position: absolute;
-      right: 0;
-      top: 18px;
-      z-index: 10;
-      cursor: pointer;
-    }
-
-    .login__box:nth-child(2) input {
-      padding-right: 1.8rem;
-    }
-
-    .login__check, .login__check-group {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .login__check {
-      margin-bottom: 1.5rem;
-    }
-
-    .login__check-label, .login__forgot, .login__register {
-      font-size: var(--small-font-size);
-    }
-
-    .login__check-group {
-      column-gap: 0.5rem;
-    }
-
-    .login__check-input {
-      width: 16px;
-      height: 16px;
-    }
-
-    .login__forgot {
-      color: var(--white-color);
-    }
-
-    .login__forgot:hover {
-      text-decoration: underline;
-    }
-
-    .login__button {
-      width: 100%;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      background-color: var(--blue-color);
-      font-weight: var(--font-medium);
-      cursor: pointer;
-      margin-bottom: 2rem;
-      color: var(--white-color);
-      transition: background-color 0.3s ease;
-    }
-
-    /* Button hover is blue, button default stays white background and black text */
-    .login__button:hover {
-      background-color: var(--blue-color);
-      color: var(--white-color);
-    }
-
-    .login__register {
-      text-align: center;
-    }
-
-    /* Register link is blue by default and on hover */
-    .login__register a {
-      color: var(--blue-color);
-      font-weight: var(--font-medium);
-      transition: color 0.3s ease;
-    }
-
-    .login__register a:hover {
-      text-decoration: underline;
-      color: var(--blue-color);
-    }
-
-    /* Fix for floating label on input focus and when input has text */
-    .login__input:focus + .login__label,
-    .login__input:not(:placeholder-shown) + .login__label {
-      top: -12px;
-      font-size: var(--small-font-size);
-      color: var(--blue-color);
-    }
-
-    /* for medium devices */
-    @media screen and (min-width: 576px) {
-      .login {
-        justify-content: center;
-      }
-      .login__form {
-        width: 432px;
-        padding: 4rem 3rem 3.5rem;
-        border-radius: 1.5rem;
-      }
-      .login__title {
-        font-size: 2rem;
-      }
-    }
-
-    /* error and notification styles */
-    #signupError, #signupNotification {
-      text-align: center;
-      margin-bottom: 1rem;
-      font-weight: 600;
-      display: none;
-    }
-
-    #signupError {
-      color: #ff4d4d;
-    }
-
-    #signupNotification {
-      color: #4BB543;
-    }
+    :root { --white-color:#fff; --blue-color:#007bff; }
+    * { box-sizing: border-box; }
+    body { margin:0; }
+    .login__form { background-color: hsla(0,0%,10%,0.1); border:2px solid var(--white-color); padding:2rem 1.5rem; border-radius:1rem; backdrop-filter: blur(8px); }
+    .login__title { text-align:center; font-size:1.5rem; margin-bottom:1rem; }
+    .login__content { display:grid; row-gap:1.25rem; margin-bottom:1rem; }
+    .login__box { display:grid; grid-template-columns: 1fr; border-bottom:2px solid var(--white-color); }
+    .login__input { padding:.8rem 0; background:none; color:#fff; }
+    .login__label { margin-top:.25rem; color:#fff; }
+    .login__button { width:100%; padding:1rem; border-radius:.5rem; background-color: var(--blue-color); color:#fff; border:none; cursor:pointer; }
   </style>
 </head>
 <body>
-  <div class="login">
-    <img src="C:\Users\ara tec\Downloads\login-bg.png" alt="login image" class="login__img" />
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> RoAccounts</div>
+      <nav class="site-nav">
+        <a href="./Products.html">Shop</a>
+        <a href="./Contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <form class="login__form" onsubmit="return signupUser()">
-      <h1 class="login__title">Sign Up</h1>
+  <main class="container container-narrow" style="padding-top:24px; padding-bottom:24px;">
+    <div class="card floating" style="background:#111;background: linear-gradient(135deg, #111 0%, #1c1c1c 60%, #222 100%); color:#fff;">
+      <div class="card-header">Create your account</div>
+      <div class="card-body">
+        <div id="signupError" class="error" style="display:none;color:#ff4d4d;"></div>
+        <div id="signupNotification" class="notification" style="display:none;color:#4BB543;"></div>
 
-      <div id="signupError"></div>
-      <div id="signupNotification"></div>
-
-      <div class="login__content">
-        <div class="login__box">
-          <i class="bx bx-user login__icon"></i>
-          <div class="login__box-input">
-            <input
-              type="text"
-              id="signupUsername"
-              required
-              class="login__input"
-              placeholder=" "
-              autocomplete="username"
-            />
-            <label for="signupUsername" class="login__label">Username</label>
+        <form class="login__form" onsubmit="return handleSignup()">
+          <h1 class="login__title">Sign up</h1>
+          <div class="login__content">
+            <div class="login__box">
+              <div class="login__box-input">
+                <input type="text" id="username" required class="login__input" placeholder=" " />
+                <label for="username" class="login__label">Username</label>
+              </div>
+            </div>
+            <div class="login__box">
+              <div class="login__box-input">
+                <input type="email" id="email" required class="login__input" placeholder=" " />
+                <label for="email" class="login__label">Email</label>
+              </div>
+            </div>
+            <div class="login__box">
+              <div class="login__box-input">
+                <input type="password" id="password" required class="login__input" placeholder=" " />
+                <label for="password" class="login__label">Password</label>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class="login__box">
-          <i class="ri-mail-line login__icon"></i>
-          <div class="login__box-input">
-            <input
-              type="email"
-              id="signupEmail"
-              required
-              class="login__input"
-              placeholder=" "
-              autocomplete="email"
-            />
-            <label for="signupEmail" class="login__label">Email</label>
-          </div>
-        </div>
-
-        <div class="login__box">
-          <i class="ri-lock-2-line login__icon"></i>
-          <div class="login__box-input">
-            <input
-              type="password"
-              id="signupPassword"
-              required
-              class="login__input"
-              placeholder=" "
-              autocomplete="new-password"
-            />
-            <label for="signupPassword" class="login__label">Password</label>
-            <i class="ri-eye-off-line login__eye" id="signup-eye"></i>
-          </div>
-        </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">Create account</button>
+          <p style="text-align:center;margin-top:12px;">Already have an account? <a href="./login.html">Login</a></p>
+        </form>
       </div>
+    </div>
+  </main>
 
-      <button type="submit" class="login__button">Sign Up</button>
-
-      <p class="login__register">
-        Already have an account? <a href="./login.html">Login</a>
-      </p>
-    </form>
-  </div>
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</div>
+  </footer>
 
   <script>
-    // Show/hide password toggle
-    const showHiddenPass = (inputId, eyeId) => {
-      const input = document.getElementById(inputId),
-        iconEye = document.getElementById(eyeId);
-
-      iconEye.addEventListener("click", () => {
-        if (input.type === "password") {
-          input.type = "text";
-          iconEye.classList.add("ri-eye-line");
-          iconEye.classList.remove("ri-eye-off-line");
-        } else {
-          input.type = "password";
-          iconEye.classList.remove("ri-eye-line");
-          iconEye.classList.add("ri-eye-off-line");
-        }
-      });
-    };
-
-    showHiddenPass("signupPassword", "signup-eye");
-
-    // Signup logic
-    function signupUser() {
-      const usernameInput = document.getElementById("signupUsername");
-      const emailInput = document.getElementById("signupEmail");
-      const passwordInput = document.getElementById("signupPassword");
+    function handleSignup() {
+      const usernameInput = document.getElementById("username");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
       const error = document.getElementById("signupError");
       const notification = document.getElementById("signupNotification");
-
-      if (!usernameInput || !emailInput || !passwordInput || !error || !notification) {
-        console.error("Required elements missing in the DOM.");
-        return false;
-      }
-
+      if (!usernameInput || !emailInput || !passwordInput || !error || !notification) { return false; }
       const username = usernameInput.value.trim();
       const email = emailInput.value.trim();
       const password = passwordInput.value.trim();
-
-      if (username.length < 3) {
-        error.textContent = "Username must be at least 3 characters.";
-        error.style.display = "block";
-        notification.style.display = "none";
-        return false;
-      }
-
-      // Basic email validation
+      if (username.length < 3) { error.textContent = "Username must be at least 3 characters."; error.style.display = "block"; notification.style.display = "none"; return false; }
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        error.textContent = "Please enter a valid email.";
-        error.style.display = "block";
-        notification.style.display = "none";
-        return false;
-      }
-
-      if (password.length < 6) {
-        error.textContent = "Password must be at least 6 characters.";
-        error.style.display = "block";
-        notification.style.display = "none";
-        return false;
-      }
-
-      // Save user data (for demo, in real apps don't store passwords in plain localStorage)
-      const user = { username, email, password };
-      localStorage.setItem("user", JSON.stringify(user));
-
-      error.textContent = "";
-      error.style.display = "none";
-
-      notification.textContent = "Signup successful!";
-      notification.style.display = "block";
-
-      usernameInput.value = "";
-      emailInput.value = "";
-      passwordInput.value = "";
-
-      setTimeout(() => {
-        notification.style.display = "none";
-        window.location.href = "./login.html"; // Redirect to login after signup
-      }, 3000);
-
-      return false; // prevent form submission
+      if (!emailRegex.test(email)) { error.textContent = "Please enter a valid email."; error.style.display = "block"; notification.style.display = "none"; return false; }
+      if (password.length < 6) { error.textContent = "Password must be at least 6 characters."; error.style.display = "block"; notification.style.display = "none"; return false; }
+      localStorage.setItem("user", JSON.stringify({ username, email, password }));
+      error.style.display = "none"; notification.textContent = "Signup successful!"; notification.style.display = "block";
+      usernameInput.value = ""; emailInput.value = ""; passwordInput.value = "";
+      setTimeout(() => { notification.style.display = "none"; window.location.href = "./login.html"; }, 1000);
+      return false;
     }
   </script>
 </body>

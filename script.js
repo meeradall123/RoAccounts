@@ -78,6 +78,6 @@ function showLoginNotification(message) {
 
   setTimeout(() => {
     notification.style.display = "none";
-    window.location.href = "./Products"; // Redirect after login
+    window.location.href = "./Products.html"; // Redirect after login
   }, 3000);
 }

@@ -1,273 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Pay With FiPay</title>
+  <title>Pay with FiPay</title>
+  <link rel="stylesheet" href="theme.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(135deg, #2c2c2c 0%, #535353 60%, #3f32f3);
-      color: #f0f0f0;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      transition: opacity 0.5s ease;
-      position: relative; /* to contain the live chat absolutely */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #f9fafb;
-
-
-      /* Fade-in effect */
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    .form-container {
-      background: #535353;
-      padding: 2.5rem 2rem;
-      border-radius: 18px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      max-width: 400px;
-      width: 100%;
-      border: 1px solid #000000;
-      position: relative;
-    }
-
-    .form-header {
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.75rem;
-      margin-bottom: 2rem;
-      color: #000000;
-    }
-
-    .form-header span {
-      color: #3f32f3;
-    }
-
-    .input-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .card-expiry-container {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 1.25rem;
-    }
-
-    input {
-      font-size: 1rem;
-      padding: 0.85rem 1rem;
-      border: 1px solid #000000;
-      border-radius: 10px;
-      width: 100%;
-      box-sizing: border-box;
-      background: #1f2937;
-      color: white;
-      opacity: 0.7;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #3f32f3;
-      box-shadow: 0 0 0 3px rgba(116, 115, 115, 0.25);
-      opacity: 1;
-    }
-
-    #CreditCardNumber {
-      flex: 2;
-    }
-
-    #MMYY {
-      flex: 1;
-    }
-
-    #CVC {
-      width: 90px;
-      margin: 0 auto 1.25rem auto;
-      display: block;
-      text-align: center;
-    }
-
-    #FULLNAME {
-      margin-bottom: 1rem;
-    }
-
-    #EmailAddress {
-      margin-bottom: 1.5rem;
-    }
-
-    button {
-      width: 100%;
-      padding: 0.95rem;
-      font-size: 1rem;
-      background: linear-gradient(to right, #3f32f3, #3f32f3);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    button:hover {
-      background: linear-gradient(to right, #3f32f3, #3f32f3);
-      transform: translateY(-1px);
-    }
-
-    .notification {
-      position: absolute;
-      top: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      opacity: 0;
-      transition: opacity 0.5s ease, top 0.5s ease;
-      z-index: 1000;
-      color: white;
-    }
-
-    .notification.show {
-      top: -80px;
-      opacity: 1;
-    }
-
-    .notification.success {
-      background-color: #996900;
-    }
-
-    .notification.error {
-      background-color: #3f32f3;
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-      }
-    }
-
-    body.fade-out {
-      animation: fadeOut 0.5s forwards;
-    }
-
-    @media (max-width: 480px) {
-      .form-container {
-        padding: 1.75rem 1.5rem;
-      }
-
-      .card-expiry-container {
-        flex-direction: column;
-      }
-
-      #CVC {
-        width: 100%;
-        margin: 0 0 1.25rem 0;
-      }
-    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; } }
+    body { opacity: 0; animation: fadeIn .6s ease forwards; }
+    body.fade-out { animation: fadeOut .6s ease forwards; }
   </style>
 </head>
-<body>
-
-  <div class="form-container">
-    <div class="notification" id="notification"></div>
-
-    <div class="form-header">Pay with <span>FiPay</span></div>
-
-    <div class="card-expiry-container">
-      <input type="text" id="CreditCardNumber" placeholder="Card Number" maxlength="16" inputmode="numeric" />
-      <input type="text" id="MMYY" placeholder="MM/YY" maxlength="5" />
+<body class="brand-ebay">
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> FiPay Checkout</div>
+      <nav class="site-nav">
+        <a href="./Products.html">Shop</a>
+        <a href="./Contact.html">Support</a>
+      </nav>
     </div>
+  </header>
 
-    <input type="text" id="CVC" placeholder="CVC" maxlength="3" inputmode="numeric" />
-    <input type="text" id="FULLNAME" placeholder="Full Name (optional)" />
-    <input type="email" id="EmailAddress" placeholder="Email Address (optional)" />
+  <main class="container" style="padding-top:24px; padding-bottom:24px;">
+    <div class="grid-2">
+      <section class="card floating">
+        <div class="card-header">Choose how to pay</div>
+        <div class="card-body">
+          <div class="payment-methods mb-16">
+            <label class="payment-option">
+              <input type="radio" name="method" value="card" checked>
+              <strong>Credit or debit card</strong>
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="method" value="paypal" disabled>
+              <span class="muted">PayPal (coming soon)</span>
+            </label>
+          </div>
 
-    <button onclick="message()">Place Order</button>
-    <script src="script2.js"></script>
-  </div>
+          <div id="card-form">
+            <div class="form-field">
+              <label class="label" for="FULLNAME">Name on card</label>
+              <input class="input" type="text" id="FULLNAME" placeholder="John A. Doe">
+            </div>
+
+            <div class="form-field">
+              <label class="label" for="EmailAddress">Email for receipt (optional)</label>
+              <input class="input" type="email" id="EmailAddress" placeholder="john@example.com">
+            </div>
+
+            <div class="form-field">
+              <label class="label" for="CreditCardNumber">Card number</label>
+              <input class="input" type="text" id="CreditCardNumber" inputmode="numeric" autocomplete="off" placeholder="1234 1234 1234 1234" maxlength="19">
+            </div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;" class="mb-16">
+              <div class="form-field" style="margin-bottom:0;">
+                <label class="label" for="MMYY">Expiry</label>
+                <input class="input" type="text" id="MMYY" placeholder="MM/YY" maxlength="5">
+              </div>
+              <div class="form-field" style="margin-bottom:0;">
+                <label class="label" for="CVC">Security code</label>
+                <input class="input" type="text" id="CVC" placeholder="CVC" maxlength="3" inputmode="numeric" autocomplete="off">
+              </div>
+            </div>
+
+            <div class="small muted mb-16">This is a demo UI and does not process real payments.</div>
+            <button id="payBtn" class="btn btn-primary" style="width:100%">Confirm and pay</button>
+            <div id="notice" class="small muted mt-12" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="card floating order-summary">
+        <div class="card-header">Order summary</div>
+        <div class="card-body">
+          <div style="display:flex; gap:12px; align-items:center;" class="mb-16">
+            <div style="width:64px; height:64px; background:#f2f4f7; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; color:#98a2b3;">RA</div>
+            <div style="flex:1;">
+              <div style="font-weight:700;">Selected account</div>
+              <div class="muted small">Digital item • Instant delivery</div>
+            </div>
+            <div class="price">$50.00</div>
+          </div>
+
+          <ul class="list mb-16">
+            <li><span>Subtotal</span><span>$50.00</span></li>
+            <li><span>Shipping</span><span>Free</span></li>
+            <li><span>Tax</span><span>$0.00</span></li>
+          </ul>
+          <div style="display:flex; justify-content: space-between; align-items:center;" class="mb-16 total">
+            <span>Total</span>
+            <span>$50.00</span>
+          </div>
+
+          <div class="form-field">
+            <label class="label" for="coupon">Apply coupon (optional)</label>
+            <input id="coupon" class="input" placeholder="Enter code">
+          </div>
+
+          <div class="mt-16 small muted">Need help? <a href="./Contact.html">Contact support</a></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts • FiPay UI demo</div>
+  </footer>
 
   <script>
-    // Show notification & redirect logic
-    function showNotification(message, type = 'success') {
-      const notif = document.getElementById("notification");
-      notif.textContent = message;
-      notif.className = `notification show ${type}`;
-
-      if (type === 'success') {
-        setTimeout(() => document.body.classList.add('fade-out'), 2000);
-        setTimeout(() => window.location.href = "./PaymentDeclined", 2500);
-      } else {
-        setTimeout(() => notif.classList.remove("show"), 3000);
-      }
+    function showNotification(message) {
+      const notice = document.getElementById('notice');
+      notice.textContent = message;
     }
-
-    // Expiry validation
     function validateExpiry(mmYY) {
       if (mmYY.length !== 5 || mmYY[2] !== '/') return false;
       const [month, year] = mmYY.split('/').map(Number);
       const now = new Date();
       const currentYear = now.getFullYear() % 100;
       const currentMonth = now.getMonth() + 1;
-      return (year > currentYear) || (year === currentYear && month >= currentMonth);
+      return month >= 1 && month <= 12 && ((year > currentYear) || (year === currentYear && month >= currentMonth));
     }
 
-    // Input validation function (called by message())
-    function validateInputs() {
-      const card = document.getElementById("CreditCardNumber").value.trim();
-      const mmYY = document.getElementById("MMYY").value.trim();
-      const cvc = document.getElementById("CVC").value.trim();
-
-      const isCardValid = /^\d{16}$/.test(card);
-      const isExpiryValid = validateExpiry(mmYY);
-      const isCvcValid = /^\d{3}$/.test(cvc);
-
-      if (!isCardValid) {
-        showNotification("Invalid card number", "error");
-        return false;
-      }
-      if (!isExpiryValid) {
-        showNotification("Invalid expiry", "error");
-        return false;
-      }
-      if (!isCvcValid) {
-        showNotification("Invalid CVC", "error");
-        return false;
-      }
-
-      showNotification("Processing your payment...", "success");
-      return true;
-    }
-
-    // MMYY auto-format input
-    document.getElementById("MMYY").addEventListener("input", function () {
+    // Basic client-side formatting/validation only; no network calls
+    document.getElementById('MMYY').addEventListener('input', function () {
       let val = this.value.replace(/[^\d]/g, '');
-      if (val.length === 1) val = '0' + val;
-      if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
-      this.value = val;
+      if (val.length > 2) val = val.slice(0,2) + '/' + val.slice(2,4);
+      this.value = val.slice(0,5);
+    });
+    document.getElementById('CVC').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0,3);
+    });
+    document.getElementById('CreditCardNumber').addEventListener('input', function () {
+      let val = this.value.replace(/\D/g, '').slice(0,16);
+      this.value = val.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
     });
 
-    // CVC numeric input only
-    document.getElementById("CVC").addEventListener("input", function () {
-      this.value = this.value.replace(/\D/g, '').slice(0, 3);
+    document.getElementById('payBtn').addEventListener('click', function () {
+      const card = document.getElementById('CreditCardNumber').value.replace(/\s/g, '');
+      const mmYY = document.getElementById('MMYY').value.trim();
+      const cvc = document.getElementById('CVC').value.trim();
+      if (!/^\d{16}$/.test(card)) { showNotification('Please enter a valid 16-digit card number.'); return; }
+      if (!validateExpiry(mmYY)) { showNotification('Please enter a valid expiry (MM/YY).'); return; }
+      if (!/^\d{3}$/.test(cvc)) { showNotification('Please enter a valid 3-digit CVC.'); return; }
+      showNotification('Processing your order...');
+      document.body.classList.add('fade-out');
+      setTimeout(() => { window.location.href = './PaymentDeclined.html'; }, 700);
     });
   </script>
-
 </body>
 </html>

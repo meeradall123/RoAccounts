@@ -4,111 +4,90 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Checkout - RoAccounts</title>
+  <link rel="stylesheet" href="theme.css">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      color: #333;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      transition: opacity 1s ease;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    @keyframes fadeOut {
-      to { opacity: 0; }
-    }
-    body.fade-out {
-      animation: fadeOut 1s ease forwards;
-    }
-    header, footer {
-      background-color: #1e1e1e;
-      color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-    nav {
-      background-color: #3f32f3;
-      padding: 1rem;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 0 1rem;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      text-decoration: underline;
-    }
-    .checkout-container {
-      max-width: 500px;
-      margin: 2rem auto;
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 10px;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #1e1e1e;
-      margin-bottom: 1rem;
-    }
-    label {
-      display: block;
-      margin: 1rem 0 0.5rem;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.8rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-    .credit-section, .robux-section, .user-info {
-      display: none;
-    }
-    .gamepass-link {
-      margin-top: -0.5rem;
-      margin-bottom: 1.5rem;
-    }
-    .gamepass-link a {
-      color: #28a745;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    .gamepass-link a:hover {
-      text-decoration: underline;
-    }
-    button.submit-btn {
-      width: 100%;
-      background-color: #3f32f3;
-      color: white;
-      font-weight: bold;
-      padding: 1rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      cursor: pointer;
-      margin-top: 1rem;
-      transition: background-color 0.3s ease;
-    }
-    button.submit-btn:hover {
-      background-color: #3f32f3;
-    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes fadeOut { to { opacity: 0; } }
+    body { opacity: 0; animation: fadeIn 0.6s ease forwards; }
+    body.fade-out { animation: fadeOut 0.6s ease forwards; }
   </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> RoAccounts</div>
+      <nav class="site-nav">
+        <a href="./Contact.html">Contact</a>
+        <a href="./Products.html">Shop</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container checkout-wrapper container-narrow">
+    <div class="card floating">
+      <div class="card-header">Complete your purchase</div>
+      <div class="card-body">
+        <form id="checkout-form">
+          <div class="form-field">
+            <label for="product" class="label">Selected Product</label>
+            <select id="product" name="product" class="select" required>
+              <option value="20x Random Roblox Accounts">Headless Account - $50</option>
+              <option value="10x Roblox Accounts">Korblox Account - $20</option>
+              <option value="30x Roblox Accounts">Headless/Korblox Account - $85</option>
+            </select>
+          </div>
+
+          <div class="user-info">
+            <div class="form-field">
+              <label for="name" class="label">Full Name</label>
+              <input type="text" id="name" name="name" class="input" />
+            </div>
+            <div class="form-field">
+              <label for="email" class="label">Email Address</label>
+              <input type="email" id="email" name="email" class="input" />
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="payment" class="label">Payment Method</label>
+            <select id="payment" name="payment" class="select" required>
+              <option value="">-- Select Payment --</option>
+              <option value="credit-card">Credit or Debit Card</option>
+              <option value="robux">Robux</option>
+            </select>
+          </div>
+
+          <div class="robux-section" style="display:none">
+            <div class="form-field">
+              <label for="robux-username" class="label">Your Roblox Username</label>
+              <input type="text" id="robux-username" name="robux-username" placeholder="YourRobloxName" class="input" />
+            </div>
+            <div class="form-field">
+              <label for="robux-transfer" class="label">Your Discord Username</label>
+              <input type="text" id="robux-transfer" name="robux-transfer" placeholder="YourDiscordname" class="input" />
+            </div>
+            <div class="form-field">
+              <span class="label">Gamepass</span>
+              <div class="small mb-8">Purchase via the link below</div>
+              👉 <a id="gamepass-link" href="#" target="_blank">Click here to buy Gamepass</a>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%">Continue</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</div>
+  </footer>
+
   <script>
     function togglePaymentFields() {
       const method = document.getElementById('payment').value;
-      const creditSection = document.querySelector('.credit-section');
       const robuxSection = document.querySelector('.robux-section');
       const userInfoSection = document.querySelector('.user-info');
-
-      creditSection.style.display = (method === 'credit-card') ? 'block' : 'none';
       robuxSection.style.display = (method === 'robux') ? 'block' : 'none';
       userInfoSection.style.display = (method === 'robux') ? 'block' : 'none';
     }
@@ -116,96 +95,34 @@
     function updateGamepassLink() {
       const product = document.getElementById('product').value;
       const link = document.getElementById('gamepass-link');
-
       const links = {
         "20x Random Roblox Accounts": "https://www.roblox.com/game-pass/1239467285/94jfd14",
         "10x Roblox Accounts": "https://www.roblox.com/game-pass/1240220373/203034",
         "30x Roblox Accounts": "https://www.roblox.com/game-pass/1240016653/21451f1f1"
       };
-
       link.href = links[product] || "#";
     }
 
     function validateForm(event) {
       event.preventDefault();
-
       const payment = document.getElementById('payment').value;
-
       document.body.classList.add('fade-out');
-
       setTimeout(() => {
         if (payment === 'credit-card') {
-          window.location.href = './FiPay'; // ✅ updated here
+          window.location.href = './FiPay.html';
         } else if (payment === 'robux') {
-          window.location.href = './RobuxPayment';
+          window.location.href = './RobuxPayment.html';
         }
-      }, 1000);
+      }, 600);
     }
 
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('payment').addEventListener('change', togglePaymentFields);
       document.getElementById('product').addEventListener('change', updateGamepassLink);
       document.getElementById('checkout-form').addEventListener('submit', validateForm);
-
       togglePaymentFields();
       updateGamepassLink();
     });
   </script>
-</head>
-<body>
-  <header>
-    <h1>RoAccounts</h1>
-    <p>Checkout</p>
-  </header>
-
-  <nav>
-    <a href="./Contact">Contact</a>
-    <a href="./Products">Shop</a>
-  </nav>
-
-  <div class="checkout-container">
-    <h2>Complete Your Purchase</h2>
-    <form id="checkout-form">
-      <label for="product">Selected Product</label>
-      <select id="product" name="product" required>
-        <option value="20x Random Roblox Accounts">Headless Account - $50</option>
-        <option value="10x Roblox Accounts">Korblox Account - $20</option>
-        <option value="30x Roblox Accounts">Headless/Korblox Account - $85</option>
-      </select>
-
-      <div class="user-info">
-        <label for="name">Full Name</label>
-        <input type="text" id="name" name="name" />
-
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" />
-      </div>
-
-      <label for="payment">Payment Method</label>
-      <select id="payment" name="payment" required>
-        <option value="">-- Select Payment --</option>
-        <option value="credit-card">Credit Card or Debit Card</option>
-        <option value="robux">Robux</option>
-      </select>
-
-      <div class="robux-section">
-        <label for="robux-username">Your Roblox Username</label>
-        <input type="text" id="robux-username" name="robux-username" placeholder="YourRobloxName" />
-
-        <label for="robux-transfer">Your Discord Username</label>
-        <input type="text" id="robux-transfer" name="robux-transfer" placeholder="YourDiscordname" />
-
-        <div class="gamepass-link">
-          👉 <a id="gamepass-link" href="#" target="_blank">Click here to buy Gamepass</a>
-        </div>
-      </div>
-
-      <button type="submit" class="submit-btn">Complete Purchase</button>
-    </form>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</p> 
-  </footer>
 </body>
 </html>

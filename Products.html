@@ -2,445 +2,269 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="favicon.png">
-  <title>RoAccounts - Roblox Account Marketplace</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
+  <title>RoAccounts - Shop</title>
+  <link rel="stylesheet" href="theme.css">
   <style>
-    /* Base Styles */
-    body {
-      margin: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: linear-gradient(135deg, #1e1e1e 0%, #2f2f2f 60%, #3f32f3 100%);
-      color: #f0f0f0;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards;
-      transition: opacity 0.5s ease;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative; /* to contain the live chat absolutely */
-    }
+    @keyframes fadeIn { to { opacity: 1; } }
+    body { opacity: 0; animation: fadeIn .5s ease forwards; }
 
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
+    /* Shop grid */
+    .shop-hero { text-align:center; padding: 48px 0 8px; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
     }
+    @media (max-width: 980px) { .products-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 640px) { .products-grid { grid-template-columns: 1fr; } }
 
-    .fade-out {
-      opacity: 0 !important;
-    }
+    .product-card .price { font-weight: 800; font-size: 18px; }
+    .product-card .muted { margin: 8px 0 14px; }
 
-    /* Header */
-    header {
-      background-color: #1e1e1e;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.7);
-      user-select: none;
-      z-index: 10;
+    /* Cart drawer */
+    .cart-toggle {
       position: relative;
-    }
-
-    header img {
-      width: 160px;
-      height: auto;
-      margin-bottom: 0.4rem;
-    }
-
-    header h1 {
-      margin: 0;
-      font-weight: 600;
-      font-size: 2.5rem;
-      color: #3f32f3;
-      letter-spacing: 0.06em;
-      text-shadow: 0 0 5px rgba(37, 59, 255, 0.7);
-    }
-
-    header p {
-      margin: 0.2rem 0 0;
-      font-weight: 400;
-      font-size: 1rem;
-      color: #ddd;
-      letter-spacing: 0.02em;
-    }
-
-    /* Navigation */
-    nav {
-      background-color: #3f32f3;
-      padding: 1rem 0;
-      text-align: center;
-      box-shadow: 0 3px 10px rgba(37, 59, 255, 0.7);
-      user-select: none;
-      z-index: 9;
-      position: relative;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 1.25rem;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-      transition: color 0.3s ease;
-      outline-offset: 2px;
-    }
-
-    nav a:hover,
-    nav a:focus {
-      color: #1e1e1e;
-      text-decoration: underline;
-      font-weight: 700;
-      outline: none;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 3rem 2rem;
-      text-align: center;
-      max-width: 900px;
-      margin: 2rem auto 3rem auto;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(37, 59, 255, 0.7);
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero h2 {
-      margin: 0 0 1rem;
-      font-size: 2.2rem;
-      font-weight: 600;
-      color: #3f32f3;
-      letter-spacing: 0.04em;
-      text-shadow: 0 0 6px rgba(37, 59, 255, 0.7);
-    }
-
-    .hero p {
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: #f0f0f0cc;
-      letter-spacing: 0.02em;
-    }
-
-    /* Items Section */
-    .items {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      padding: 0 1rem 4rem;
-      max-width: 1000px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .item {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-      width: 280px;
-      padding: 1.75rem 1.5rem;
-      box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        inset 0 0 10px rgba(20, 0, 94, 0.2);
-      color: #eee;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-    }
-
-    .item:hover,
-    .item:focus-within {
-      transform: translateY(-10px);
-      box-shadow:
-        0 10px 30px rgba(37, 59, 255, 0.7),
-        inset 0 0 20px rgba(51, 5, 255, 0.35);
-      outline: none;
-    }
-
-    .item h3 {
-      margin: 0.7rem 0 0.5rem;
-      font-weight: 600;
-      font-size: 1.3rem;
-      color: #3f32f3;
-      text-shadow: 0 0 5px rgba(37, 59, 255, 0.7);
-    }
-
-    .item p {
-      font-size: 1rem;
-      color: #ddd;
-      margin-bottom: 1.2rem;
-      font-weight: 400;
-      letter-spacing: 0.01em;
-    }
-
-    .item button {
-      background-color: #28a745;
-      color: white;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(40, 167, 69, 0.6);
-      transition: background-color 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-      outline-offset: 3px;
-      outline: none;
-    }
-
-    .item button:hover,
-    .item button:focus {
-      background-color: #218838;
-      box-shadow: 0 6px 18px rgba(33, 136, 56, 0.8);
-      outline: none;
-    }
-
-    /* Footer */
-    footer {
-      background-color: #3f32f3;
-      color: white;
-      text-align: center;
-      padding: 1.25rem 2rem;
-      font-weight: 600;
-      font-size: 1rem;
-      letter-spacing: 0.05em;
-      user-select: none;
-      box-shadow: 0 -4px 10px rgba(37, 59, 255, 0.7);
-      margin-top: auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Live Chat / Accounts Bought History panel */
-    #accountsHistory {
-      position: fixed;
-      top: 100px; /* below the header */
-      right: 20px;
-      width: 320px;
-      height: 450px;
-      background: rgba(30, 30, 30, 0.9);
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(37, 59, 255, 0.7);
-      color: #fff;
-      font-size: 0.9rem;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      user-select: none;
-      z-index: 1000;
-      border: 2px solid #3f32f3;
-    }
-
-    #accountsHistory header {
-      padding: 12px 16px;
-      background: #3f32f3;
-      font-weight: 700;
-      font-size: 1.1rem;
-      letter-spacing: 0.05em;
-      text-align: center;
-      text-shadow: 0 0 5px rgba(30, 30, 30, 0.8);
-      user-select: none;
-      flex-shrink: 0;
-      display: flex;
-      justify-content: space-between;
+      display: inline-flex;
       align-items: center;
-    }
-
-    #accountsHistory header button {
-      background: transparent;
-      border: none;
-      color: #fff;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px solid var(--border);
       font-weight: 700;
       cursor: pointer;
-      font-size: 0.9rem;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: background-color 0.3s ease;
-      user-select: none;
-      outline-offset: 2px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .cart-count {
+      background: var(--primary);
+      color: #fff;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
     }
 
-    #accountsHistory header button:hover,
-    #accountsHistory header button:focus {
-      background-color: rgba(37, 59, 255, 0.7);
-      outline: none;
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 380px;
+      max-width: 92vw;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
     }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header { display:flex; align-items:center; justify-content:space-between; padding: 16px 18px; border-bottom: 1px solid var(--border); font-weight: 800; }
+    .cart-body { padding: 16px 18px; overflow: auto; flex: 1; }
+    .cart-footer { border-top: 1px solid var(--border); padding: 16px 18px; }
 
-    #accountsHistory .historyContent {
-      flex: 1;
-      padding: 10px 14px;
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #3f32f3 transparent;
-      font-family: 'Poppins', Arial, sans-serif;
-      scroll-behavior: smooth; /* Smooth scrolling */
-    }
+    .cart-item { display:flex; align-items:center; justify-content:space-between; gap: 10px; padding: 12px 0; }
+    .cart-item + .cart-item { border-top: 1px solid var(--border); }
+    .cart-item-title { font-weight: 700; }
+    .qty-controls { display:inline-flex; align-items:center; gap: 8px; }
+    .qty-btn { width: 28px; height: 28px; border-radius: 8px; border:1px solid var(--border); background:#fff; cursor:pointer; font-weight:800; }
+    .remove-btn { border:none; background: transparent; color: var(--danger); font-weight:700; cursor:pointer; }
 
-    /* Custom scrollbar for WebKit */
-    #accountsHistory .historyContent::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    #accountsHistory .historyContent::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    #accountsHistory .historyContent::-webkit-scrollbar-thumb {
-      background-color: #3f32f3;
-      border-radius: 10px;
-    }
-
-    /* Each "chat" message */
-    .historyItem {
-      margin-bottom: 8px;
-      line-height: 1.3;
-    }
-
-    .historyUser {
-      font-weight: 700;
-      color: #3f32f3;
-      margin-right: 6px;
-    }
-
-    .historyText {
-      color: #ddd;
-    }
-
-    .user-info {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px 16px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(63, 50, 243, 0.6);
-  font-weight: 600;
-  color: #fff;
-  font-size: 1rem;
-  z-index: 20;
-}
-
-#logoutBtn {
-  background-color: #ff4c4c;
-  border: none;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-#logoutBtn:hover {
-  background-color: #e04343;
-}
-
+    .total-row { display:flex; align-items:center; justify-content:space-between; font-weight:800; margin-bottom: 12px; }
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>RoAccounts</h1>
-    <p>Your Source for Quality Roblox Accounts</p>
+  <header class="site-header">
+    <div class="container site-header-inner">
+      <div class="brand"><span class="dot"></span> RoAccounts</div>
+      <nav class="site-nav">
+        <a href="./index.html">Home</a>
+        <a href="./Contact.html">Contact</a>
+        <a href="./login.html">Login</a>
+        <button id="openCart" class="cart-toggle" type="button" aria-haspopup="dialog" aria-controls="cartDrawer">
+          Cart <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </nav>
+    </div>
   </header>
 
-<nav role="navigation" aria-label="Primary navigation">
-  <div class="nav-left">
-    
-  <div class="nav-right">
-    <a href="./Contact.html">Contact</a>
-  </div>
-</nav>
+  <main class="container">
+    <section class="shop-hero">
+      <p class="pill mb-16"><span class="badge info">Shop</span> Roblox Accounts</p>
+      <h1 class="hero-title">Choose your account</h1>
+      <p class="hero-subtitle">Curated accounts ready for instant delivery after purchase.</p>
+    </section>
 
+    <section class="products-grid">
+      <article class="card product-card floating">
+        <div class="card-body">
+          <h3 class="card-title">Headless Account</h3>
+          <p class="muted">Roblox account with Headless bundle.</p>
+          <div class="price mb-12">$50</div>
+          <button class="btn btn-primary add-to-cart" data-id="headless" data-name="Headless Account" data-price="50">Add to cart</button>
+        </div>
+      </article>
 
-  <section class="hero" role="region" aria-label="Hero section">
-    <h2>Explore Roblox Accounts</h2>
-    <p>Buy Roblox accounts</p>
-  </section>
+      <article class="card product-card floating">
+        <div class="card-body">
+          <h3 class="card-title">Korblox Account</h3>
+          <p class="muted">Roblox account with Korblox bundle.</p>
+          <div class="price mb-12">$20</div>
+          <button class="btn btn-primary add-to-cart" data-id="korblox" data-name="Korblox Account" data-price="20">Add to cart</button>
+        </div>
+      </article>
 
-  <section class="items" role="list" aria-label="Available Roblox accounts for purchase">
-    <div class="item" role="listitem" tabindex="0">
-      <h3>Headless/Korblox Account</h3>
-      <p>Roblox Account with Both Headless And Korblox bundle.</p>
-      <button
-        data-url="./checkout"
-        aria-label="Headless Acccount"
-        type="button"
-      >Buy for 50$</button>
+      <article class="card product-card floating">
+        <div class="card-body">
+          <h3 class="card-title">Headless/Korblox Account</h3>
+          <p class="muted">Roblox account with both Headless and Korblox.</p>
+          <div class="price mb-12">$85</div>
+          <button class="btn btn-primary add-to-cart" data-id="combo" data-name="Headless/Korblox Account" data-price="85">Add to cart</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <aside id="cartDrawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping cart">
+    <div class="cart-header">
+      <div>Shopping cart</div>
+      <button id="closeCart" class="btn btn-outline" type="button">Close</button>
     </div>
-    <div class="item" role="listitem" tabindex="0">
-      <h3>Korblox Account</h3>
-      <p>Roblox Account With Korblox Bundle.</p>
-      <button
-        data-url="./checkout"
-        aria-label="Korblox Account"
-        type="button"
-      >Buy for 20$</button>
+    <div id="cartBody" class="cart-body">
+      <!-- Items rendered by JS -->
     </div>
-    <div class="item" role="listitem" tabindex="0">
-      <h3>Headless Account</h3>
-      <p>Roblox Account With Headless Bundle.</p>
-      <button
-        data-url="./checkout"
-        aria-label="Korblox/Headless Acccount"
-        type="button"
-      >Buy for 85$</button>
+    <div class="cart-footer">
+      <div class="total-row"><span>Total</span><span id="cartTotal">$0</span></div>
+      <button id="checkoutBtn" class="btn btn-primary" style="width:100%">Proceed to checkout</button>
     </div>
-  </section>
+  </aside>
 
-  <footer>
-    &copy; 2025 RoAccounts. All rights reserved.
+  <footer class="footer">
+    <div class="container">&copy; 2025 RoAccounts. Not affiliated with Roblox Corporation.</div>
   </footer>
 
-  <!-- Sound file (click) -->
-  <audio id="clickSound" src="click-sound.mp3" preload="auto" aria-hidden="true"></audio>
-
   <script>
-    // Select all buttons inside .items section with a data-url attribute
-    const buyButtons = document.querySelectorAll('.items button[data-url]');
-    const clickSound = document.getElementById('clickSound');
+    const CART_KEY = 'cart';
 
-    buyButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const url = button.getAttribute('data-url');
+    function loadCart() {
+      try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
+    }
+    function saveCart(items) {
+      localStorage.setItem(CART_KEY, JSON.stringify(items));
+    }
+    function getCartCount(items) {
+      return items.reduce((sum, it) => sum + it.quantity, 0);
+    }
+    function getCartTotal(items) {
+      return items.reduce((sum, it) => sum + it.price * it.quantity, 0);
+    }
 
-        if (url) {
-          // Play sound first
-          if (clickSound) {
-            clickSound.currentTime = 0;
-            clickSound.play();
-          }
+    function renderCart() {
+      const items = loadCart();
+      const body = document.getElementById('cartBody');
+      const countEl = document.getElementById('cartCount');
+      const totalEl = document.getElementById('cartTotal');
 
-          // Delay redirect to let sound play (150ms)
-          setTimeout(() => {
-            window.location.href = url;
-          }, 500);
-        }
+      countEl.textContent = getCartCount(items);
+      totalEl.textContent = `$${getCartTotal(items).toFixed(2)}`;
+
+      if (items.length === 0) {
+        body.innerHTML = '<p class="muted">Your cart is empty.</p>';
+        return;
+      }
+
+      body.innerHTML = items.map(item => `
+        <div class="cart-item" data-id="${item.id}">
+          <div>
+            <div class="cart-item-title">${item.name}</div>
+            <div class="muted">$${item.price.toFixed(2)}</div>
+          </div>
+          <div class="qty-controls">
+            <button class="qty-btn" data-action="decrement">-</button>
+            <span aria-live="polite">${item.quantity}</span>
+            <button class="qty-btn" data-action="increment">+</button>
+            <button class="remove-btn" data-action="remove">Remove</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(product) {
+      const items = loadCart();
+      const existing = items.find(it => it.id === product.id);
+      if (existing) existing.quantity += 1; else items.push({ ...product, quantity: 1 });
+      saveCart(items);
+      renderCart();
+    }
+
+    function updateQuantity(id, delta) {
+      let items = loadCart();
+      items = items.map(it => it.id === id ? { ...it, quantity: Math.max(1, it.quantity + delta) } : it);
+      saveCart(items);
+      renderCart();
+    }
+
+    function removeFromCart(id) {
+      const items = loadCart().filter(it => it.id !== id);
+      saveCart(items);
+      renderCart();
+    }
+
+    function openCart() { document.getElementById('cartDrawer').classList.add('open'); }
+    function closeCart() { document.getElementById('cartDrawer').classList.remove('open'); }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Wire add-to-cart buttons
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const product = {
+            id: btn.dataset.id,
+            name: btn.dataset.name,
+            price: Number(btn.dataset.price)
+          };
+          addToCart(product);
+          openCart();
+        });
       });
+
+      // Cart open/close
+      document.getElementById('openCart').addEventListener('click', openCart);
+      document.getElementById('closeCart').addEventListener('click', closeCart);
+
+      // Delegate qty/remove in cart
+      document.getElementById('cartBody').addEventListener('click', (e) => {
+        const actionBtn = e.target.closest('button');
+        if (!actionBtn) return;
+        const itemEl = e.target.closest('.cart-item');
+        if (!itemEl) return;
+        const id = itemEl.getAttribute('data-id');
+        const action = actionBtn.getAttribute('data-action');
+        if (action === 'increment') updateQuantity(id, +1);
+        if (action === 'decrement') updateQuantity(id, -1);
+        if (action === 'remove') removeFromCart(id);
+      });
+
+      // Checkout
+      document.getElementById('checkoutBtn').addEventListener('click', () => {
+        const items = loadCart();
+        if (items.length === 0) return;
+        // Save primary selection for checkout page compatibility
+        const primary = items[0]?.id || 'headless';
+        localStorage.setItem('selectedProductKey', primary);
+        window.location.href = './checkout.html';
+      });
+
+      renderCart();
     });
   </script>
-  <script>
-  // Load username from localStorage (or fallback to 'Guest')
-  const username = localStorage.getItem("username") || "Guest";
-  document.getElementById("username").textContent = username;
-
-  // Logout logic
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("username");
-    window.location.href = "./login.html"; // Change this to your actual login URL
-  });
-</script>
 </body>
 </html>
 
